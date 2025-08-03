@@ -15,11 +15,56 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RuoYi.Common", "RuoYi.Commo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RuoYi.Generator", "RuoYi.Generator\RuoYi.Generator.csproj", "{EF0267D8-3B3F-4CC1-9E4E-8CD14B11FB9B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "解决方案项", "解决方案项", "{06F6111D-F0A0-4572-92D8-4BC2ABECBDF3}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "项目进度", "项目进度", "{06F6111D-F0A0-4572-92D8-4BC2ABECBDF3}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RuoYi.Quartz", "RuoYi.Quartz\RuoYi.Quartz.csproj", "{21F845AA-320A-43B0-B5A5-5929445A2C64}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZM.Device", "ZM.DeviceManagement\ZM.Device.csproj", "{20A31963-C675-409C-AF9F-D01630DE1114}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQL", "SQL", "{2EE115A9-645E-4D42-B111-9386874F39F0}"
+	ProjectSection(SolutionItems) = preProject
+		C:\Users\zgr\Desktop\sql\device_defect_record.txt = C:\Users\zgr\Desktop\sql\device_defect_record.txt
+		C:\Users\zgr\Desktop\sql\device_inspection_record.txt = C:\Users\zgr\Desktop\sql\device_inspection_record.txt
+		C:\Users\zgr\Desktop\sql\device_inspection_task.txt = C:\Users\zgr\Desktop\sql\device_inspection_task.txt
+		C:\Users\zgr\Desktop\sql\device_inspection_ticket.txt = C:\Users\zgr\Desktop\sql\device_inspection_ticket.txt
+		C:\Users\zgr\Desktop\sql\device_maint.txt = C:\Users\zgr\Desktop\sql\device_maint.txt
+		C:\Users\zgr\Desktop\sql\device_management.txt = C:\Users\zgr\Desktop\sql\device_management.txt
+		C:\Users\zgr\Desktop\sql\device_management_maint.txt = C:\Users\zgr\Desktop\sql\device_management_maint.txt
+		C:\Users\zgr\Desktop\sql\device_management_type.txt = C:\Users\zgr\Desktop\sql\device_management_type.txt
+		C:\Users\zgr\Desktop\sql\device_type.txt = C:\Users\zgr\Desktop\sql\device_type.txt
+		C:\Users\zgr\Desktop\sql\gen_table.txt = C:\Users\zgr\Desktop\sql\gen_table.txt
+		C:\Users\zgr\Desktop\sql\gen_table_column.txt = C:\Users\zgr\Desktop\sql\gen_table_column.txt
+		C:\Users\zgr\Desktop\sql\mes_item_stock.txt = C:\Users\zgr\Desktop\sql\mes_item_stock.txt
+		C:\Users\zgr\Desktop\sql\mes_item_use.txt = C:\Users\zgr\Desktop\sql\mes_item_use.txt
+		C:\Users\zgr\Desktop\sql\mes_procedure.txt = C:\Users\zgr\Desktop\sql\mes_procedure.txt
+		C:\Users\zgr\Desktop\sql\sys_company.txt = C:\Users\zgr\Desktop\sql\sys_company.txt
+		C:\Users\zgr\Desktop\sql\sys_config.txt = C:\Users\zgr\Desktop\sql\sys_config.txt
+		C:\Users\zgr\Desktop\sql\sys_dept.txt = C:\Users\zgr\Desktop\sql\sys_dept.txt
+		C:\Users\zgr\Desktop\sql\sys_dict_data.txt = C:\Users\zgr\Desktop\sql\sys_dict_data.txt
+		C:\Users\zgr\Desktop\sql\sys_dict_type.txt = C:\Users\zgr\Desktop\sql\sys_dict_type.txt
+		C:\Users\zgr\Desktop\sql\sys_job.txt = C:\Users\zgr\Desktop\sql\sys_job.txt
+		C:\Users\zgr\Desktop\sql\sys_job_log.txt = C:\Users\zgr\Desktop\sql\sys_job_log.txt
+		C:\Users\zgr\Desktop\sql\sys_logininfor.txt = C:\Users\zgr\Desktop\sql\sys_logininfor.txt
+		C:\Users\zgr\Desktop\sql\sys_menu.txt = C:\Users\zgr\Desktop\sql\sys_menu.txt
+		C:\Users\zgr\Desktop\sql\sys_notice.txt = C:\Users\zgr\Desktop\sql\sys_notice.txt
+		C:\Users\zgr\Desktop\sql\sys_oper_log.txt = C:\Users\zgr\Desktop\sql\sys_oper_log.txt
+		C:\Users\zgr\Desktop\sql\sys_post.txt = C:\Users\zgr\Desktop\sql\sys_post.txt
+		C:\Users\zgr\Desktop\sql\sys_role.txt = C:\Users\zgr\Desktop\sql\sys_role.txt
+		C:\Users\zgr\Desktop\sql\sys_role_dept.txt = C:\Users\zgr\Desktop\sql\sys_role_dept.txt
+		C:\Users\zgr\Desktop\sql\sys_role_menu.txt = C:\Users\zgr\Desktop\sql\sys_role_menu.txt
+		C:\Users\zgr\Desktop\sql\sys_tenant.txt = C:\Users\zgr\Desktop\sql\sys_tenant.txt
+		C:\Users\zgr\Desktop\sql\sys_user.txt = C:\Users\zgr\Desktop\sql\sys_user.txt
+		C:\Users\zgr\Desktop\sql\sys_user_dept.txt = C:\Users\zgr\Desktop\sql\sys_user_dept.txt
+		C:\Users\zgr\Desktop\sql\sys_user_post.txt = C:\Users\zgr\Desktop\sql\sys_user_post.txt
+		C:\Users\zgr\Desktop\sql\sys_user_role.txt = C:\Users\zgr\Desktop\sql\sys_user_role.txt
+		C:\Users\zgr\Desktop\sql\sys_user_tenant.txt = C:\Users\zgr\Desktop\sql\sys_user_tenant.txt
+		C:\Users\zgr\Desktop\sql\t_bom_used.txt = C:\Users\zgr\Desktop\sql\t_bom_used.txt
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZY.MES", "ZY.MES\ZY.MES.csproj", "{7A869C1D-034C-41F3-B228-423D53356996}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +104,10 @@ Global
 		{20A31963-C675-409C-AF9F-D01630DE1114}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20A31963-C675-409C-AF9F-D01630DE1114}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20A31963-C675-409C-AF9F-D01630DE1114}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A869C1D-034C-41F3-B228-423D53356996}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A869C1D-034C-41F3-B228-423D53356996}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A869C1D-034C-41F3-B228-423D53356996}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A869C1D-034C-41F3-B228-423D53356996}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
