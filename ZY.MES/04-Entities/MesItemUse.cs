@@ -24,5 +24,17 @@ namespace ZY.MES._04_Entities
 
         [SugarColumn(ColumnName = "use_item_count",ColumnDescription = "使用数量")]
         public decimal? UseItemCount { get; set; }
+
+        [SugarColumn(ColumnName = "created_by",ColumnDescription = "创建人")]
+        public string? CreatedBy { get; set; }
+
+        [SugarColumn(ColumnName = "created_time",ColumnDescription = "创建时间")]
+        public DateTime? CreatedTime { get; set; }
+
+        [SugarColumn(ColumnName = "updated_by",ColumnDescription = "更新人")]
+        public string? UpdatedBy { get; set; }
+
+        [SugarColumn(ColumnName = "updated_time",ColumnDescription = "更新时间")]
+        public DateTime? UpdatedTime { get; set; }
     }
 }

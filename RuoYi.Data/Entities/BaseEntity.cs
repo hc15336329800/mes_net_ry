@@ -2,8 +2,17 @@
 
 namespace RuoYi.Data.Entities
 {
-    public class BaseEntity { }
 
+    /// <summary>
+    /// 不限制
+    /// </summary>
+    public class BaseEntity {
+    }
+
+
+    /// <summary>
+    /// 限制创建人创建时间
+    /// </summary>
     public class CreateUserBaseEntity : BaseEntity
     {
         /// <summary>
@@ -19,6 +28,11 @@ namespace RuoYi.Data.Entities
         public DateTime? CreateTime { get; set; }
     }
 
+
+
+    /// <summary>
+    /// 限制创建人创建时间更新人更新时间
+    /// </summary>
     public class UserBaseEntity: BaseEntity
     {
         /// <summary>
