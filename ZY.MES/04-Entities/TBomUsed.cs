@@ -12,7 +12,7 @@ namespace ZY.MES._04_Entities
     /// 完整BOM表
     /// </summary>
     [SugarTable("t_bom_used","完整BOM表")]
-    public class TBomUsed : UserBaseEntity
+    public class TBomUsed : BaseEntity
     {
         [SugarColumn(ColumnName = "id",ColumnDescription = "主键",IsPrimaryKey = true)]
         public long Id { get; set; }

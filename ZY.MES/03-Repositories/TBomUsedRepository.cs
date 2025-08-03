@@ -40,11 +40,8 @@ namespace ZY.MES._03_Repositories
                     ParentCode = x.ParentCode,
                     UseItemNo = x.UseItemNo,
                     FixedUsed = x.FixedUsed,
-                    UseItemType = x.UseItemType,
-                    CreateBy = x.CreateBy,
-                    CreateTime = x.CreateTime,
-                    UpdateBy = x.UpdateBy,
-                    UpdateTime = x.UpdateTime
+                    UseItemType = x.UseItemType
+
                 });
         }
     }

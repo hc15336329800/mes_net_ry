@@ -12,7 +12,7 @@ namespace ZY.MES._04_Entities
     /// 一级BOM表
     /// </summary>
     [SugarTable("mes_item_use","一级BOM表")]
-    public class MesItemUse : UserBaseEntity
+    public class MesItemUse : BaseEntity
     {
         [SugarColumn(ColumnName = "id",ColumnDescription = "主键",IsPrimaryKey = true)]
         public long Id { get; set; }

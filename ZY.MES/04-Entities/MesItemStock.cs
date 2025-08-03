@@ -12,7 +12,7 @@ namespace ZY.MES._04_Entities
     /// 物料表
     /// </summary>
     [SugarTable("mes_item_stock","物料表")]
-    public class MesItemStock : UserBaseEntity
+    public class MesItemStock : BaseEntity
     {
         [SugarColumn(ColumnName = "id",ColumnDescription = "主键",IsPrimaryKey = true)]
         public long Id { get; set; }

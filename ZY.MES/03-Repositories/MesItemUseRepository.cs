@@ -38,10 +38,7 @@ namespace ZY.MES._03_Repositories
                     ItemNo = x.ItemNo,
                     UseItemNo = x.UseItemNo,
                     UseItemCount = x.UseItemCount,
-                    CreateBy = x.CreateBy,
-                    CreateTime = x.CreateTime,
-                    UpdateBy = x.UpdateBy,
-                    UpdateTime = x.UpdateTime
+              
                 });
         }
     }

@@ -40,10 +40,7 @@ namespace ZY.MES._03_Repositories
                     ItemModel = x.ItemModel,
                     ItemCount = x.ItemCount,
                     ItemMeasure = x.ItemMeasure,
-                    CreateBy = x.CreateBy,
-                    CreateTime = x.CreateTime,
-                    UpdateBy = x.UpdateBy,
-                    UpdateTime = x.UpdateTime
+             
                 });
         }
     }
