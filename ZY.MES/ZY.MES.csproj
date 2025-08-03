@@ -7,17 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="01-Controllers\" />
-    <Folder Include="02-Services\" />
-    <Folder Include="03-Repositories\" />
-    <Folder Include="04-Entities\" />
-    <Folder Include="05-Dtos\" />
     <Folder Include="06-Tool\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\RuoYi.Common\RuoYi.Common.csproj" />
     <ProjectReference Include="..\RuoYi.Data\RuoYi.Data.csproj" />
+    <ProjectReference Include="..\RuoYi.Framework\RuoYi.Framework.csproj" />
     <ProjectReference Include="..\RuoYi.System\RuoYi.System.csproj" />
   </ItemGroup>
 
