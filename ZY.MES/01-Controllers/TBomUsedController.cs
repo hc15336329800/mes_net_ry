@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RuoYi.Framework;
@@ -17,6 +18,7 @@ namespace ZY.MES._01_Controllers
     /// </summary>
     [ApiDescriptionSettings("zy/mes/bomUsed")]
     [Route("zy/mes/bomUsed")]
+    [AllowAnonymous] //匿名访问
     public class TBomUsedController : ControllerBase
     {
         private readonly ILogger<TBomUsedController> _logger;
@@ -27,6 +29,18 @@ namespace ZY.MES._01_Controllers
             _logger = logger;
             _service = service;
         }
+
+        /// <summary>
+        /// 构建物料用料树
+        /// </summary>
+        /// <param name="itemNo">根物料编号</param>
+        [HttpPost("item_use_tree")]
+        public async Task<AjaxResult> ItemUseTree([FromBody] string itemNo)
+        {
+            var data = await _service.GetItemUseTreeAsync(itemNo);
+            return AjaxResult.Success(data);
+        }
+
 
         [HttpGet("pagelist")]
         public async Task<SqlSugarPagedList<TBomUsedDto>> GetPageList([FromQuery] TBomUsedDto dto)
