@@ -43,7 +43,19 @@ namespace ZY.MES._02_Services
             }
 
             // 一次性查询所有用料关系
-            var usedList = await _repository.Repo.AsQueryable().ToListAsync();
+            // 明确选择所需列以避免实体与表不一致导致的映射问题
+            var usedList = await _repository.Repo.AsQueryable()
+                .Select(u => new TBomUsed
+                {
+                    Id = u.Id,
+                    ItemNo = u.ItemNo,
+                    BomNo = u.BomNo,
+                    ParentCode = u.ParentCode,
+                    UseItemNo = u.UseItemNo,
+                    FixedUsed = u.FixedUsed,
+                    UseItemType = u.UseItemType
+                })
+                .ToListAsync();
 
             if(usedList == null || usedList.Count == 0)
             {
