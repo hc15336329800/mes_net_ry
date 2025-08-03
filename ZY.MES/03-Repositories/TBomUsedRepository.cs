@@ -23,23 +23,24 @@ namespace ZY.MES._03_Repositories
         public override ISugarQueryable<TBomUsed> Queryable(TBomUsedDto dto)
         {
             return Repo.AsQueryable()
-                .WhereIF(!string.IsNullOrWhiteSpace(dto.BomCode),x => x.BomCode.Contains(dto.BomCode))
-                .WhereIF(!string.IsNullOrWhiteSpace(dto.ItemCode),x => x.ItemCode.Contains(dto.ItemCode));
+               .WhereIF(!string.IsNullOrWhiteSpace(dto.BomNo),x => x.BomNo.Contains(dto.BomNo))
+                .WhereIF(!string.IsNullOrWhiteSpace(dto.UseItemNo),x => x.UseItemNo.Contains(dto.UseItemNo));
         }
 
         public override ISugarQueryable<TBomUsedDto> DtoQueryable(TBomUsedDto dto)
         {
             return Repo.AsQueryable()
-                .WhereIF(!string.IsNullOrWhiteSpace(dto.BomCode),x => x.BomCode.Contains(dto.BomCode))
-                .WhereIF(!string.IsNullOrWhiteSpace(dto.ItemCode),x => x.ItemCode.Contains(dto.ItemCode))
+              .WhereIF(!string.IsNullOrWhiteSpace(dto.BomNo),x => x.BomNo.Contains(dto.BomNo))
+                .WhereIF(!string.IsNullOrWhiteSpace(dto.UseItemNo),x => x.UseItemNo.Contains(dto.UseItemNo))
                 .Select(x => new TBomUsedDto
                 {
                     Id = x.Id,
-                    BomCode = x.BomCode,
+                    ItemNo = x.ItemNo,
+                    BomNo = x.BomNo,
                     ParentCode = x.ParentCode,
-                    ItemCode = x.ItemCode,
-                    Quantity = x.Quantity,
-                    Level = x.Level,
+                    UseItemNo = x.UseItemNo,
+                    FixedUsed = x.FixedUsed,
+                    UseItemType = x.UseItemType,
                     CreateBy = x.CreateBy,
                     CreateTime = x.CreateTime,
                     UpdateBy = x.UpdateBy,

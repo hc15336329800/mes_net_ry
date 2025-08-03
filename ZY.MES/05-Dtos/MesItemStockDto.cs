@@ -10,10 +10,10 @@ namespace ZY.MES._05_Dtos
     public class MesItemStockDto : BaseDto
     {
         public long Id { get; set; }
-        public string ItemCode { get; set; }
-        public string ItemName { get; set; }
-        public string? Spec { get; set; }
-        public decimal? Quantity { get; set; }
-        public string? Unit { get; set; }
+        public string ItemNo { get; set; } = null!;
+        public string ItemName { get; set; } = null!;
+        public string? ItemModel { get; set; }
+        public decimal? ItemCount { get; set; }
+        public string? ItemMeasure { get; set; }
     }
 }

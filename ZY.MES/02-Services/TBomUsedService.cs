@@ -25,6 +25,8 @@ namespace ZY.MES._02_Services
         {
             _logger = logger;
             _repository = repository;
+            _itemRepository = itemRepository;
+
             BaseRepo = repository;
         }
 
@@ -49,19 +51,19 @@ namespace ZY.MES._02_Services
             }
 
             // 收集涉及到的所有物料编号
-            var codes = usedList.Select(u => u.ItemCode)
+            var codes = usedList.Select(u => u.UseItemNo)
                 .Concat(usedList.Select(u => u.ParentCode ?? string.Empty))
                 .Where(c => !string.IsNullOrWhiteSpace(c))
                 .Distinct()
                 .ToList();
 
             var itemInfos = await _itemRepository.Repo.AsQueryable()
-                .In(x => x.ItemCode,codes)
+                .In(x => x.ItemNo,codes)
                 .ToListAsync();
 
-            var itemDict = itemInfos.ToDictionary(x => x.ItemCode,x => x);
+            var itemDict = itemInfos.ToDictionary(x => x.ItemNo,x => x);
             var lookup = usedList.GroupBy(u => u.ParentCode)
-                .ToDictionary(g => g.Key,g => g.ToList());
+                .ToDictionary(g => g.Key!,g => g.ToList());
 
             var visited = new HashSet<string>();
 
@@ -74,21 +76,21 @@ namespace ZY.MES._02_Services
                     ParentCode = code,
                     ItemName = itemDict.TryGetValue(code,out var item) ? item.ItemName : null,
                     FixedUsed = 1,
-                    BomNo = lookup.TryGetValue(code,out var firstChild) && firstChild.Any() ? firstChild.First().BomCode : null
+                    BomNo = lookup.TryGetValue(code,out var firstChild) && firstChild.Any() ? firstChild.First().BomNo : null
                 };
 
                 if(lookup.TryGetValue(code,out var children))
                 {
                     foreach(var child in children)
                     {
-                        if(visited.Contains(child.ItemCode))
+                        if(visited.Contains(child.UseItemNo))
                             continue;
 
-                        var childNode = BuildNode(child.ItemCode);
+                        var childNode = BuildNode(child.UseItemNo);
                         childNode.ParentCode = child.ParentCode;
-                        childNode.FixedUsed = child.Quantity;
+                        childNode.FixedUsed = child.FixedUsed;
                         childNode.UsedId = child.Id;
-                        childNode.BomNo = child.BomCode;
+                        childNode.BomNo = child.BomNo;
                         node.Children.Add(childNode);
                     }
                 }

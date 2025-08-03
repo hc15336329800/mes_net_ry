@@ -14,7 +14,7 @@ namespace ZY.MES._05_Dtos
         /// <summary>
         /// 物料编号
         /// </summary>
-        public string ItemNo { get; set; }
+        public string ItemNo { get; set; } = null!;
 
         /// <summary>
         /// 物料名称

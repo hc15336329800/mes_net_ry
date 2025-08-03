@@ -10,8 +10,8 @@ namespace ZY.MES._05_Dtos
     public class MesItemUseDto : BaseDto
     {
         public long Id { get; set; }
-        public string ParentCode { get; set; }
-        public string ItemCode { get; set; }
-        public decimal? Quantity { get; set; }
+        public string ItemNo { get; set; } = null!;
+        public string UseItemNo { get; set; } = null!;
+        public decimal? UseItemCount { get; set; }
     }
 }

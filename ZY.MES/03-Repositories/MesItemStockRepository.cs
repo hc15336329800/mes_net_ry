@@ -23,23 +23,23 @@ namespace ZY.MES._03_Repositories
         public override ISugarQueryable<MesItemStock> Queryable(MesItemStockDto dto)
         {
             return Repo.AsQueryable()
-                .WhereIF(!string.IsNullOrWhiteSpace(dto.ItemCode),x => x.ItemCode.Contains(dto.ItemCode))
-                .WhereIF(!string.IsNullOrWhiteSpace(dto.ItemName),x => x.ItemName.Contains(dto.ItemName));
+                 .WhereIF(!string.IsNullOrWhiteSpace(dto.ItemNo),x => x.ItemNo.Contains(dto.ItemNo))
+                 .WhereIF(!string.IsNullOrWhiteSpace(dto.ItemName),x => x.ItemName.Contains(dto.ItemName));
         }
 
         public override ISugarQueryable<MesItemStockDto> DtoQueryable(MesItemStockDto dto)
         {
             return Repo.AsQueryable()
-                .WhereIF(!string.IsNullOrWhiteSpace(dto.ItemCode),x => x.ItemCode.Contains(dto.ItemCode))
+                .WhereIF(!string.IsNullOrWhiteSpace(dto.ItemNo),x => x.ItemNo.Contains(dto.ItemNo))
                 .WhereIF(!string.IsNullOrWhiteSpace(dto.ItemName),x => x.ItemName.Contains(dto.ItemName))
                 .Select(x => new MesItemStockDto
                 {
                     Id = x.Id,
-                    ItemCode = x.ItemCode,
+                    ItemNo = x.ItemNo,
                     ItemName = x.ItemName,
-                    Spec = x.Spec,
-                    Quantity = x.Quantity,
-                    Unit = x.Unit,
+                    ItemModel = x.ItemModel,
+                    ItemCount = x.ItemCount,
+                    ItemMeasure = x.ItemMeasure,
                     CreateBy = x.CreateBy,
                     CreateTime = x.CreateTime,
                     UpdateBy = x.UpdateBy,

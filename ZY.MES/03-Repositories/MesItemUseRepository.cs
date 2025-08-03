@@ -23,21 +23,21 @@ namespace ZY.MES._03_Repositories
         public override ISugarQueryable<MesItemUse> Queryable(MesItemUseDto dto)
         {
             return Repo.AsQueryable()
-                .WhereIF(!string.IsNullOrWhiteSpace(dto.ParentCode),x => x.ParentCode.Contains(dto.ParentCode))
-                .WhereIF(!string.IsNullOrWhiteSpace(dto.ItemCode),x => x.ItemCode.Contains(dto.ItemCode));
+               .WhereIF(!string.IsNullOrWhiteSpace(dto.ItemNo),x => x.ItemNo.Contains(dto.ItemNo))
+                .WhereIF(!string.IsNullOrWhiteSpace(dto.UseItemNo),x => x.UseItemNo.Contains(dto.UseItemNo));
         }
 
         public override ISugarQueryable<MesItemUseDto> DtoQueryable(MesItemUseDto dto)
         {
             return Repo.AsQueryable()
-                .WhereIF(!string.IsNullOrWhiteSpace(dto.ParentCode),x => x.ParentCode.Contains(dto.ParentCode))
-                .WhereIF(!string.IsNullOrWhiteSpace(dto.ItemCode),x => x.ItemCode.Contains(dto.ItemCode))
+               .WhereIF(!string.IsNullOrWhiteSpace(dto.ItemNo),x => x.ItemNo.Contains(dto.ItemNo))
+                .WhereIF(!string.IsNullOrWhiteSpace(dto.UseItemNo),x => x.UseItemNo.Contains(dto.UseItemNo))
                 .Select(x => new MesItemUseDto
                 {
                     Id = x.Id,
-                    ParentCode = x.ParentCode,
-                    ItemCode = x.ItemCode,
-                    Quantity = x.Quantity,
+                    ItemNo = x.ItemNo,
+                    UseItemNo = x.UseItemNo,
+                    UseItemCount = x.UseItemCount,
                     CreateBy = x.CreateBy,
                     CreateTime = x.CreateTime,
                     UpdateBy = x.UpdateBy,
