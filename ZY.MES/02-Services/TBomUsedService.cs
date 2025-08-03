@@ -42,20 +42,8 @@ namespace ZY.MES._02_Services
                 throw new ArgumentException("itemNo is required",nameof(itemNo));
             }
 
-            // 一次性查询所有用料关系
-            // 明确选择所需列以避免实体与表不一致导致的映射问题
-            var usedList = await _repository.Repo.AsQueryable()
-                .Select(u => new TBomUsed
-                {
-                    Id = u.Id,
-                    ItemNo = u.ItemNo,
-                    BomNo = u.BomNo,
-                    ParentCode = u.ParentCode,
-                    UseItemNo = u.UseItemNo,
-                    FixedUsed = u.FixedUsed,
-                    UseItemType = u.UseItemType
-                })
-                .ToListAsync();
+            // 使用DTO查询避免实体映射造成的问题
+            var usedList = await _repository.DtoQueryable(new TBomUsedDto()).ToListAsync();
 
             if(usedList == null || usedList.Count == 0)
             {
@@ -85,7 +73,7 @@ namespace ZY.MES._02_Services
                 var node = new UseItemTreeResp
                 {
                     ItemNo = code,
-                    ParentCode = code,
+                    ParentCode = null,
                     ItemName = itemDict.TryGetValue(code,out var item) ? item.ItemName : null,
                     FixedUsed = 1,
                     BomNo = lookup.TryGetValue(code,out var firstChild) && firstChild.Any() ? firstChild.First().BomNo : null
