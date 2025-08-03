@@ -17,19 +17,19 @@ namespace ZY.MES._04_Entities
         [SugarColumn(ColumnName = "id",ColumnDescription = "主键",IsPrimaryKey = true)]
         public long Id { get; set; }
 
-        [SugarColumn(ColumnName = "bom_code",ColumnDescription = "BOM编码")]
+        [SugarColumn(ColumnName = "bom_no",ColumnDescription = "BOM编码")]
         public string BomCode { get; set; }
 
         [SugarColumn(ColumnName = "parent_code",ColumnDescription = "父物料编码")]
         public string? ParentCode { get; set; }
 
-        [SugarColumn(ColumnName = "item_code",ColumnDescription = "物料编码")]
+        [SugarColumn(ColumnName = "use_item_no",ColumnDescription = "物料编码")]
         public string ItemCode { get; set; }
 
-        [SugarColumn(ColumnName = "quantity",ColumnDescription = "使用数量")]
+        [SugarColumn(ColumnName = "use_item_count",ColumnDescription = "使用数量")]
         public decimal? Quantity { get; set; }
 
-        [SugarColumn(ColumnName = "level",ColumnDescription = "层级")]
-        public int? Level { get; set; }
+        [SugarColumn(ColumnName = "use_item_type",ColumnDescription = "使用类型")]
+        public string? Level { get; set; }
     }
 }

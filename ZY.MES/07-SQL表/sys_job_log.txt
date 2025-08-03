@@ -1,1 +1,0 @@
-"job_log_id"	"job_name"	"job_group"	"invoke_target"	"job_message"	"status"	"exception_info"	"create_time"

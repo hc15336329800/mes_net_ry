@@ -26,6 +26,46 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZM.Device", "ZM.DeviceManag
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZY.MES", "ZY.MES\ZY.MES.csproj", "{7A869C1D-034C-41F3-B228-423D53356996}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "项目SQL表", "项目SQL表", "{C54CD10D-2558-4A25-A447-AC13207610D8}"
+	ProjectSection(SolutionItems) = preProject
+		C:\Users\zgr\Desktop\sql  mes\device_defect_record.sql = C:\Users\zgr\Desktop\sql  mes\device_defect_record.sql
+		C:\Users\zgr\Desktop\sql  mes\device_inspection_record.sql = C:\Users\zgr\Desktop\sql  mes\device_inspection_record.sql
+		C:\Users\zgr\Desktop\sql  mes\device_inspection_task.sql = C:\Users\zgr\Desktop\sql  mes\device_inspection_task.sql
+		C:\Users\zgr\Desktop\sql  mes\device_inspection_ticket.sql = C:\Users\zgr\Desktop\sql  mes\device_inspection_ticket.sql
+		C:\Users\zgr\Desktop\sql  mes\device_maint.sql = C:\Users\zgr\Desktop\sql  mes\device_maint.sql
+		C:\Users\zgr\Desktop\sql  mes\device_management.sql = C:\Users\zgr\Desktop\sql  mes\device_management.sql
+		C:\Users\zgr\Desktop\sql  mes\device_management_maint.sql = C:\Users\zgr\Desktop\sql  mes\device_management_maint.sql
+		C:\Users\zgr\Desktop\sql  mes\device_management_type.sql = C:\Users\zgr\Desktop\sql  mes\device_management_type.sql
+		C:\Users\zgr\Desktop\sql  mes\device_type.sql = C:\Users\zgr\Desktop\sql  mes\device_type.sql
+		C:\Users\zgr\Desktop\sql  mes\gen_table.sql = C:\Users\zgr\Desktop\sql  mes\gen_table.sql
+		C:\Users\zgr\Desktop\sql  mes\gen_table_column.sql = C:\Users\zgr\Desktop\sql  mes\gen_table_column.sql
+		C:\Users\zgr\Desktop\sql  mes\mes_item_stock.sql = C:\Users\zgr\Desktop\sql  mes\mes_item_stock.sql
+		C:\Users\zgr\Desktop\sql  mes\mes_item_use.sql = C:\Users\zgr\Desktop\sql  mes\mes_item_use.sql
+		C:\Users\zgr\Desktop\sql  mes\mes_procedure.sql = C:\Users\zgr\Desktop\sql  mes\mes_procedure.sql
+		C:\Users\zgr\Desktop\sql  mes\sys_company.sql = C:\Users\zgr\Desktop\sql  mes\sys_company.sql
+		C:\Users\zgr\Desktop\sql  mes\sys_config.sql = C:\Users\zgr\Desktop\sql  mes\sys_config.sql
+		C:\Users\zgr\Desktop\sql  mes\sys_dept.sql = C:\Users\zgr\Desktop\sql  mes\sys_dept.sql
+		C:\Users\zgr\Desktop\sql  mes\sys_dict_data.sql = C:\Users\zgr\Desktop\sql  mes\sys_dict_data.sql
+		C:\Users\zgr\Desktop\sql  mes\sys_dict_type.sql = C:\Users\zgr\Desktop\sql  mes\sys_dict_type.sql
+		C:\Users\zgr\Desktop\sql  mes\sys_job.sql = C:\Users\zgr\Desktop\sql  mes\sys_job.sql
+		C:\Users\zgr\Desktop\sql  mes\sys_job_log.sql = C:\Users\zgr\Desktop\sql  mes\sys_job_log.sql
+		C:\Users\zgr\Desktop\sql  mes\sys_logininfor.sql = C:\Users\zgr\Desktop\sql  mes\sys_logininfor.sql
+		C:\Users\zgr\Desktop\sql  mes\sys_menu.sql = C:\Users\zgr\Desktop\sql  mes\sys_menu.sql
+		C:\Users\zgr\Desktop\sql  mes\sys_notice.sql = C:\Users\zgr\Desktop\sql  mes\sys_notice.sql
+		C:\Users\zgr\Desktop\sql  mes\sys_oper_log.sql = C:\Users\zgr\Desktop\sql  mes\sys_oper_log.sql
+		C:\Users\zgr\Desktop\sql  mes\sys_post.sql = C:\Users\zgr\Desktop\sql  mes\sys_post.sql
+		C:\Users\zgr\Desktop\sql  mes\sys_role.sql = C:\Users\zgr\Desktop\sql  mes\sys_role.sql
+		C:\Users\zgr\Desktop\sql  mes\sys_role_dept.sql = C:\Users\zgr\Desktop\sql  mes\sys_role_dept.sql
+		C:\Users\zgr\Desktop\sql  mes\sys_role_menu.sql = C:\Users\zgr\Desktop\sql  mes\sys_role_menu.sql
+		C:\Users\zgr\Desktop\sql  mes\sys_tenant.sql = C:\Users\zgr\Desktop\sql  mes\sys_tenant.sql
+		C:\Users\zgr\Desktop\sql  mes\sys_user.sql = C:\Users\zgr\Desktop\sql  mes\sys_user.sql
+		C:\Users\zgr\Desktop\sql  mes\sys_user_dept.sql = C:\Users\zgr\Desktop\sql  mes\sys_user_dept.sql
+		C:\Users\zgr\Desktop\sql  mes\sys_user_post.sql = C:\Users\zgr\Desktop\sql  mes\sys_user_post.sql
+		C:\Users\zgr\Desktop\sql  mes\sys_user_role.sql = C:\Users\zgr\Desktop\sql  mes\sys_user_role.sql
+		C:\Users\zgr\Desktop\sql  mes\sys_user_tenant.sql = C:\Users\zgr\Desktop\sql  mes\sys_user_tenant.sql
+		C:\Users\zgr\Desktop\sql  mes\t_bom_used.sql = C:\Users\zgr\Desktop\sql  mes\t_bom_used.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

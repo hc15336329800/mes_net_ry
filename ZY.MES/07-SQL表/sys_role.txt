@@ -1,4 +1,0 @@
-"role_id"	"role_name"	"role_key"	"role_sort"	"data_scope"	"menu_check_strictly"	"dept_check_strictly"	"status"	"del_flag"	"create_by"	"create_time"	"update_by"	"update_time"	"remark"	"tenant_id"
-"1"	"超级管理员"	"admin"	"1"	"1"	"1"	"1"	"0"	"0"	"admin"	"11/12/2024 20:31:30"	""		"超级管理员"	"0"
-"2"	"普通角色"	"commom"	"2"	"2"	"1"	"1"	"0"	"0"	"admin"	"11/12/2024 20:31:30"	"admin"	"12/12/2024 20:38:48"	"普通角色"	"0"
-"104"	"IT运维"	"it"	"3"		"1"	"1"	"0"	"0"	"admin"	"12/4/2025 13:09:18"				"0"
