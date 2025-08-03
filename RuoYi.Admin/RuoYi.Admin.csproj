@@ -16,6 +16,7 @@
 	  <ProjectReference Include="..\RuoYi.Quartz\RuoYi.Quartz.csproj" />
 	  <ProjectReference Include="..\RuoYi.System\RuoYi.System.csproj" />
 	  <ProjectReference Include="..\ZM.DeviceManagement\ZM.Device.csproj" />
+	  <ProjectReference Include="..\ZY.MES\ZY.MES.csproj" />
 	</ItemGroup>
 
 </Project>

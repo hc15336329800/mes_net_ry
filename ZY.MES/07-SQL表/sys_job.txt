@@ -1,0 +1,4 @@
+"job_id"	"job_name"	"job_group"	"invoke_target"	"cron_expression"	"misfire_policy"	"concurrent"	"status"	"create_by"	"create_time"	"update_by"	"update_time"	"remark"
+"1"	"系统默认（无参）"	"DEFAULT"	"ryTask.RyNoParams"	"0/10 * * * * ?"	"3"	"1"	"1"	"admin"	"11/12/2024 20:31:53"	""		""
+"2"	"系统默认（有参）"	"DEFAULT"	"ryTask.RyParams('ry')"	"0/15 * * * * ?"	"3"	"1"	"1"	"admin"	"11/12/2024 20:31:53"	""		""
+"3"	"系统默认（多参）"	"DEFAULT"	"ryTask.RyMultipleParams('ry', true, 2000L, 316.50D, 100)"	"0/20 * * * * ?"	"3"	"1"	"1"	"admin"	"11/12/2024 20:31:53"	""		""

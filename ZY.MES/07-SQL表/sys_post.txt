@@ -1,0 +1,6 @@
+"post_id"	"post_code"	"post_name"	"post_sort"	"status"	"create_by"	"create_time"	"update_by"	"update_time"	"remark"	"tenant_id"
+"1"	"ceo"	"董事长"	"1"	"0"	"admin"	"11/12/2024 20:31:29"	""		""	"0"
+"2"	"se"	"项目经理"	"2"	"0"	"admin"	"11/12/2024 20:31:29"	""		""	"0"
+"3"	"hr"	"人力资源"	"3"	"0"	"admin"	"11/12/2024 20:31:29"	""		""	"0"
+"4"	"user"	"普通员工"	"4"	"0"	"admin"	"11/12/2024 20:31:29"	""		""	"0"
+"5"	"it"	"信息建设"	"5"	"0"	"admin"	"12/4/2025 13:07:48"				"0"

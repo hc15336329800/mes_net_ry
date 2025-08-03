@@ -1,0 +1,1 @@
+"company_id"	"tenant_id"	"company_name"	"company_code"	"status"	"create_by"	"create_time"	"update_by"	"update_time"	"remark"
