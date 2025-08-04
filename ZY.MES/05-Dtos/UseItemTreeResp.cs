@@ -29,7 +29,7 @@ namespace ZY.MES._05_Dtos
         /// <summary>
         /// 用料关系主键
         /// </summary>
-        public long? UsedId { get; set; }
+        public string UsedId { get; set; }
 
         /// <summary>
         /// 子节点集合

@@ -33,11 +33,11 @@ namespace ZY.MES._01_Controllers
         /// <summary>
         /// 构建物料用料树
         /// </summary>
-        /// <param name="itemNo">根物料编号</param>
-        [HttpPost("item_use_tree")]
-        public async Task<AjaxResult> ItemUseTree([FromBody] string itemNo)
+        /// <param name="bomNo">BOM编号</param>
+        [HttpGet("item_use_tree")]
+        public async Task<AjaxResult> ItemUseTree([FromQuery] string bomNo)
         {
-            var data = await _service.GetItemUseTreeAsync(itemNo);
+            var data = await _service.GetItemUseTreeAsync(bomNo);
             return AjaxResult.Success(data);
         }
 
@@ -51,7 +51,7 @@ namespace ZY.MES._01_Controllers
         [HttpGet("{id}")]
         public async Task<AjaxResult> Get(long id)
         {
-            var data = await _service.FirstOrDefaultAsync(x => x.Id == id);
+            var data = await _service.FirstOrDefaultAsync(x => x.Id == id.ToString());
             return data != null ? AjaxResult.Success(data) : AjaxResult.Error("not found");
         }
 

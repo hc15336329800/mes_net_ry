@@ -9,7 +9,7 @@ namespace ZY.MES._05_Dtos
 {
     public class TBomUsedDto : BaseDto
     {
-        public long Id { get; set; }
+        public string Id { get; set; }
         public string ItemNo { get; set; } = null!;
         public string BomNo { get; set; } = null!;
         public string UseItemNo { get; set; } = null!;

@@ -9,6 +9,8 @@ using ZY.MES._03_Repositories;
 using ZY.MES._04_Entities;
 using ZY.MES._05_Dtos;
 using SqlSugar;
+using Microsoft.AspNetCore.Mvc;
+using RuoYi.Framework;
 
 namespace ZY.MES._02_Services
 {
@@ -31,80 +33,89 @@ namespace ZY.MES._02_Services
         }
 
         /// <summary>
-        /// 构建指定物料的用料树
+        /// 构建指定BOM的用料树
         /// </summary>
-        /// <param name="itemNo">根物料编号</param>
-        /// <returns>用料树</returns>
-        public async Task<UseItemTreeResp> GetItemUseTreeAsync(string itemNo)
+        /// <param name="bomNo">BOM编号</param>
+        /// <returns>根节点集合</returns>
+        public async Task<List<UseItemTreeResp>> GetItemUseTreeAsync(string bomNo)
         {
-            if(string.IsNullOrWhiteSpace(itemNo))
+            if(string.IsNullOrWhiteSpace(bomNo))
             {
-                throw new ArgumentException("itemNo is required",nameof(itemNo));
+                throw new ArgumentException("bomNo is required",nameof(bomNo));
             }
 
-            // 使用DTO查询避免实体映射造成的问题
-            var usedList = await _repository.DtoQueryable(new TBomUsedDto()).ToListAsync();
+            // 查询指定 BOM 的用料清单
+            var usedList = await _repository.Repo.AsQueryable()
+                .Where(x => x.BomNo == bomNo)
+                .Select(x => new TBomUsedDto
+                {
+                    Id = x.Id,
+                    ItemNo = x.ItemNo,
+                    BomNo = x.BomNo,
+                    ParentCode = x.ParentCode,
+                    UseItemNo = x.UseItemNo,
+                    FixedUsed = x.FixedUsed,
+                    UseItemType = x.UseItemType
+                })
+                .ToListAsync();
 
             if(usedList == null || usedList.Count == 0)
             {
-                throw new Exception("no data");
+                return new List<UseItemTreeResp>();
             }
 
-            // 收集涉及到的所有物料编号
-            var codes = usedList.Select(u => u.UseItemNo)
-                .Concat(usedList.Select(u => u.ParentCode ?? string.Empty))
-                .Where(c => !string.IsNullOrWhiteSpace(c))
-                .Distinct()
-                .ToList();
+            // 查询物料名称映射
+            var useItemNos = usedList.Select(u => u.UseItemNo).ToHashSet();
 
             var itemInfos = await _itemRepository.Repo.AsQueryable()
-                .In(x => x.ItemNo,codes)
+                .In(x => x.ItemNo,useItemNos.ToArray())
+                .Select(x => new { x.ItemNo,x.ItemName })
                 .ToListAsync();
 
-            var itemDict = itemInfos.ToDictionary(x => x.ItemNo,x => x);
-            var lookup = usedList.GroupBy(u => u.ParentCode)
-                .ToDictionary(g => g.Key!,g => g.ToList());
+            var itemNameMap = itemInfos.ToDictionary(x => x.ItemNo,x => x.ItemName);
 
-            var visited = new HashSet<string>();
 
-            UseItemTreeResp BuildNode(string code)
+            // 构建中间节点映射
+            var map = new Dictionary<string,UseItemTreeResp>();
+            foreach(var bom in usedList)
             {
-                visited.Add(code);
-                var node = new UseItemTreeResp
+                 var node = new UseItemTreeResp
                 {
-                    ItemNo = code,
-                    ParentCode = null,
-                    ItemName = itemDict.TryGetValue(code,out var item) ? item.ItemName : null,
-                    FixedUsed = 1,
-                    BomNo = lookup.TryGetValue(code,out var firstChild) && firstChild.Any() ? firstChild.First().BomNo : null
-                };
+                     UsedId = bom.Id,
+                     ItemNo = bom.UseItemNo,
+                     ParentCode = bom.ParentCode,
+                     FixedUsed = bom.FixedUsed,
+                     BomNo = bom.BomNo,
+                     ItemType = bom.UseItemType,
+                     ItemName = itemNameMap.TryGetValue(bom.UseItemNo,out var name) ? name : null,
+                     Children = new List<UseItemTreeResp>()
+                 };
 
-                if(lookup.TryGetValue(code,out var children))
+                map[bom.UseItemNo] = node;
+            }
+
+            // 构建根节点
+            var roots = new List<UseItemTreeResp>();
+            var allUseItemNos = map.Keys.ToHashSet();
+
+            foreach(var bom in usedList)
+            {
+                var current = map[bom.UseItemNo];
+                var parentCode = bom.ParentCode;
+
+                if(string.IsNullOrWhiteSpace(parentCode)
+                                   || parentCode == bom.UseItemNo
+                                   || !allUseItemNos.Contains(parentCode))
                 {
-                    foreach(var child in children)
-                    {
-                        if(visited.Contains(child.UseItemNo))
-                            continue;
+                    roots.Add(current);
 
-                        var childNode = BuildNode(child.UseItemNo);
-                        childNode.ParentCode = child.ParentCode;
-                        childNode.FixedUsed = child.FixedUsed;
-                        childNode.UsedId = child.Id;
-                        childNode.BomNo = child.BomNo;
-                        node.Children.Add(childNode);
-                    }
                 }
 
-                visited.Remove(code);
-                return node;
+                 
             }
 
-            var root = BuildNode(itemNo);
-            if(root.Children.Count == 0 && !lookup.ContainsKey(itemNo))
-            {
-                throw new Exception("tree build failed");
-            }
-            return root;
+            return roots;
+
         }
 
 
