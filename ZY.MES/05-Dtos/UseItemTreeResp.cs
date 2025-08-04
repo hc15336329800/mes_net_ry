@@ -27,9 +27,9 @@ namespace ZY.MES._05_Dtos
         public string? ParentCode { get; set; }
 
         /// <summary>
-        /// 用料关系主键
+        /// 节点主键
         /// </summary>
-        public string UsedId { get; set; }
+        public string Id { get; set; } = null!;
 
         /// <summary>
         /// 子节点集合

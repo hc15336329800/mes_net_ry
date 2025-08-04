@@ -89,7 +89,7 @@ namespace ZY.MES._02_Services
             {
                  var node = new UseItemTreeResp
                 {
-                     UsedId = bom.Id,
+                     Id = bom.Id,
                      ItemNo = bom.UseItemNo,
                      ParentCode = bom.ParentCode,
                      FixedUsed = bom.FixedUsed,
@@ -273,6 +273,53 @@ namespace ZY.MES._02_Services
                 await _repository.Repo.InsertAsync(deduped);
             }
         }
+
+
+
+        /// <summary>
+        /// 删除指定节点及其所有子节点
+        /// </summary>
+        /// <param name="id">节点 ID</param>
+        public async Task<int> DeleteBomAsync(string id)
+        {
+            if(string.IsNullOrWhiteSpace(id))
+            {
+                throw new ArgumentException("id is required",nameof(id));
+            }
+
+            var root = await _repository.FirstOrDefaultAsync(x => x.Id == id);
+            if(root == null)
+            {
+                return 0;
+            }
+
+            var ids = new List<string> { root.Id };
+
+            if(root.UseItemType == "01")
+            {
+                await CollectChildIdsAsync(root.ItemNo,root.UseItemNo,ids);
+            }
+
+            return await _repository.DeleteAsync(ids);
+        }
+
+        private async Task CollectChildIdsAsync(string itemNo,string parentCode,List<string> ids)
+        {
+            var children = await _repository.Repo.AsQueryable()
+                .Where(x => x.ItemNo == itemNo && x.ParentCode == parentCode)
+                .Select(x => new { x.Id,x.UseItemNo,x.UseItemType })
+                .ToListAsync();
+
+            foreach(var child in children)
+            {
+                ids.Add(child.Id);
+                if(child.UseItemType == "01")
+                {
+                    await CollectChildIdsAsync(itemNo,child.UseItemNo,ids);
+                }
+            }
+        }
+
 
 
     }

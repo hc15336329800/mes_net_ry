@@ -97,5 +97,16 @@ namespace ZY.MES._01_Controllers
             int rows = await _service.DeleteAsync(id);
             return rows > 0 ? AjaxResult.Success() : AjaxResult.Error();
         }
+
+        /// <summary>
+        /// 删除指定节点及其所有子节点
+        /// </summary>
+        /// <param name="id">待删除节点ID</param>
+        [HttpPost("delete_bom")]
+        public async Task<AjaxResult> DeleteBom([FromBody] string id)
+        {
+            int rows = await _service.DeleteBomAsync(id);
+            return rows > 0 ? AjaxResult.Success() : AjaxResult.Error();
+        }
     }
 }
