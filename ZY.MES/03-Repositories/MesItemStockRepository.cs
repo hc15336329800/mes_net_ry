@@ -54,8 +54,8 @@ namespace ZY.MES._03_Repositories
                 query = query.Where(x => x.ItemName.Contains(dto.ItemName));
             }
 
-            //  根据 itemType = "01" 添加查询条件
-            query = query.Where(x => x.ItemType == "01");
+            //  根据 itemType  添加查询条件
+            query = query.Where(x => x.ItemType == dto.ItemType);
 
             // 打印出生成的 SQL 查询语句和查询参数
             var sqlQuery = query.ToSql();
