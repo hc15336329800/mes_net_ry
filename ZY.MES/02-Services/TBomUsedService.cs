@@ -11,6 +11,8 @@ using ZY.MES._05_Dtos;
 using SqlSugar;
 using Microsoft.AspNetCore.Mvc;
 using RuoYi.Framework;
+using RuoYi.Data.Tool;
+
 
 namespace ZY.MES._02_Services
 {
@@ -170,7 +172,7 @@ namespace ZY.MES._02_Services
 
                     result.Add(new TBomUsed
                     {
-                        Id = Guid.NewGuid().ToString(),
+                        Id = NextId.Id13().ToString(),
                         ItemNo = itemNo,
                         BomNo = bomNo,
                         UseItemNo = child.UseItemNo,
@@ -196,7 +198,7 @@ namespace ZY.MES._02_Services
             // 添加自身依赖节点
             result.Add(new TBomUsed
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = NextId.Id13().ToString(),
                 ItemNo = itemNo,
                 BomNo = bomNo,
                 UseItemNo = itemNo,

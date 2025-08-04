@@ -15,7 +15,7 @@ namespace ZY.MES._04_Entities
     public class MesItemUse : BaseEntity
     {
         [SugarColumn(ColumnName = "id",ColumnDescription = "主键",IsPrimaryKey = true)]
-        public long Id { get; set; }
+        public string Id { get; set; }
 
         [SugarColumn(ColumnName = "item_no",ColumnDescription = "物料编号")]
         public string ItemNo { get; set; } = null!;
