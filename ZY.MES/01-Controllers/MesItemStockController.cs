@@ -32,8 +32,13 @@ namespace ZY.MES._01_Controllers
         }
 
         [HttpGet("pagelist")]
-        public async Task<SqlSugarPagedList<MesItemStockDto>> GetPageList([FromQuery] MesItemStockDto dto)
+        public async Task<SqlSugarPagedList<MesItemStockDto>> GetPageList(
+            [FromQuery] MesItemStockDto dto,
+            [FromQuery] int pageNum = 1,
+            [FromQuery] int pageSize = 10)
         {
+            // pageNum and pageSize are captured via PageUtils in service layer
+
             return await _service.GetDtoPagedListAsync(dto);
         }
 

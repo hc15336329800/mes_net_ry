@@ -35,10 +35,17 @@ namespace ZY.MES._03_Repositories
             // 第一步：使用 Repo.AsQueryable 创建查询基础
             var query = Repo.AsQueryable();
 
+
+ 
             // 第二步：根据 dto.ItemNo 添加查询条件
             if(!string.IsNullOrWhiteSpace(dto.ItemNo))
             {
                 query = query.Where(x => x.ItemNo.Contains(dto.ItemNo));
+            }
+ 
+            if(!string.IsNullOrWhiteSpace(dto.BomNo))
+            {
+                query = query.Where(x => x.BomNo.Contains(dto.BomNo));
             }
 
             // 第三步：根据 dto.ItemName 添加查询条件
@@ -46,6 +53,9 @@ namespace ZY.MES._03_Repositories
             {
                 query = query.Where(x => x.ItemName.Contains(dto.ItemName));
             }
+
+            //  根据 itemType = "01" 添加查询条件
+            query = query.Where(x => x.ItemType == "01");
 
             // 打印出生成的 SQL 查询语句和查询参数
             var sqlQuery = query.ToSql();
