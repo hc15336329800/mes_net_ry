@@ -163,6 +163,12 @@ namespace ZY.MES._02_Services
 
             void FindChildUse(string parentItemNo,decimal parentCount,string path)
             {
+                // 防止循环引用导致的无限递归
+                if(path.Split('|').Count(p => p == parentItemNo) > 1)
+                {
+                    return;
+                }
+
                 if(!childrenMap.TryGetValue(parentItemNo,out var children))
                 {
                     children = _useRepository.Repo.AsQueryable()
@@ -219,10 +225,8 @@ namespace ZY.MES._02_Services
                         UpdatedTime = now
                     });
 
-                    if(childType == "01")
-                    {
-                        FindChildUse(child.UseItemNo,useCount,childPath);
-                    }
+                    // 无论物料类型为何，都尝试继续向下查找子级，确保完整遍历
+                    FindChildUse(child.UseItemNo,useCount,childPath);
                 }
             }
 

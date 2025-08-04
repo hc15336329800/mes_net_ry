@@ -73,6 +73,27 @@ namespace ZY.MES._01_Controllers
 
 
 
+        /// <summary>
+        /// 查询bom和物料
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <param name="pageNum"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        [HttpGet("pagelistall")]
+        public async Task<SqlSugarPagedList<MesItemStockDto>> GetPageListAll(
+            [FromQuery] MesItemStockDto dto,
+            [FromQuery] int pageNum = 1,
+            [FromQuery] int pageSize = 10)
+        {
+            // pageNum and pageSize are captured via PageUtils in service layer
+            dto.ItemType = "03";//物料类型
+
+            return await _service.GetDtoPagedListAsync(dto);
+        }
+
+
+
         [HttpGet("{id}")]
         public async Task<AjaxResult> Get(String id)
         {
