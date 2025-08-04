@@ -23,7 +23,10 @@ namespace ZY.MES._02_Services
         private readonly TBomUsedRepository _repository;
         private readonly MesItemStockRepository _itemRepository;
 
-        public TBomUsedService(ILogger<TBomUsedService> logger,TBomUsedRepository repository,MesItemStockRepository itemRepository)
+        public TBomUsedService(
+            ILogger<TBomUsedService> logger,
+            TBomUsedRepository repository,
+            MesItemStockRepository itemRepository)
         {
             _logger = logger;
             _repository = repository;
@@ -119,6 +122,114 @@ namespace ZY.MES._02_Services
 
         }
 
+
+        /// <summary>
+        /// 根据前端传递的一级用料数据重新构建完整BOM
+        /// </summary>
+        /// <param name="uses">一级用料列表</param>
+        public async Task LoadBomDataAsync(List<MesItemUseDto> uses)
+        {
+            if(uses == null || uses.Count == 0)
+            {
+                throw new ArgumentException("uses is required",nameof(uses));
+            }
+
+            // 推断根物料编码：父节点集合减去子节点集合
+            var parentSet = uses.Select(x => x.ItemNo).ToHashSet();
+            var childSet = uses.Select(x => x.UseItemNo).ToHashSet();
+            var itemNo = parentSet.Except(childSet).FirstOrDefault() ?? uses[0].ItemNo;
+
+            // 查询所需物料信息
+            var allNos = parentSet.Union(childSet).Append(itemNo).Distinct().ToArray();
+            var itemInfos = await _itemRepository.Repo.AsQueryable()
+                .In(x => x.ItemNo,allNos)
+                .Select(x => new { x.ItemNo,x.ItemType,x.BomNo })
+                .ToListAsync();
+            var typeMap = itemInfos.ToDictionary(x => x.ItemNo,x => x.ItemType);
+            var bomNo = itemInfos.FirstOrDefault(x => x.ItemNo == itemNo)?.BomNo ?? itemNo;
+
+            var childrenMap = uses
+                .GroupBy(x => x.ItemNo)
+                .ToDictionary(g => g.Key,g => g.ToList());
+
+            var result = new List<TBomUsed>();
+            var now = DateTime.Now;
+
+            void FindChildUse(string parentItemNo,decimal parentCount,string path)
+            {
+                if(!childrenMap.TryGetValue(parentItemNo,out var children))
+                {
+                    return;
+                }
+
+                foreach(var child in children)
+                {
+                    var childType = typeMap.TryGetValue(child.UseItemNo,out var t) ? t : null;
+                    var useCount = (child.UseItemCount ?? 0m) * parentCount;
+                    var childPath = string.IsNullOrEmpty(path) ? child.UseItemNo : $"{path}|{child.UseItemNo}";
+
+                    result.Add(new TBomUsed
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        ItemNo = itemNo,
+                        BomNo = bomNo,
+                        UseItemNo = child.UseItemNo,
+                        UseItemCount = useCount,
+                        UseItemType = childType,
+                        ParentCode = parentItemNo,
+                        ItemNos = childPath,
+                        UsedId = child.Id.ToString(),
+                        FixedUsed = useCount,
+                        CreatedTime = now,
+                        UpdatedTime = now
+                    });
+
+                    if(childType == "01")
+                    {
+                        FindChildUse(child.UseItemNo,useCount,childPath);
+                    }
+                }
+            }
+
+            FindChildUse(itemNo,1m,itemNo);
+
+            // 添加自身依赖节点
+            result.Add(new TBomUsed
+            {
+                Id = Guid.NewGuid().ToString(),
+                ItemNo = itemNo,
+                BomNo = bomNo,
+                UseItemNo = itemNo,
+                UseItemCount = 1m,
+                UseItemType = typeMap.TryGetValue(itemNo,out var rootType) ? rootType : null,
+                ParentCode = itemNo,
+                ItemNos = itemNo,
+                FixedUsed = 1m,
+                CreatedTime = now,
+                UpdatedTime = now
+            });
+
+            // 同一父子组合去重并合并数量
+            var deduped = result
+                .GroupBy(x => new { x.ParentCode,x.UseItemNo })
+                .Select(g =>
+                {
+                    var first = g.First();
+                    first.UseItemCount = g.Sum(x => x.UseItemCount);
+                    first.FixedUsed = g.Sum(x => x.FixedUsed ?? 0m);
+                    return first;
+                })
+                .ToList();
+
+            // 删除旧数据
+            await _repository.Repo.DeleteAsync(x => x.ItemNo == itemNo);
+
+            // 批量写入
+            if(deduped.Count > 0)
+            {
+                await _repository.Repo.InsertAsync(deduped);
+            }
+        }
 
 
     }

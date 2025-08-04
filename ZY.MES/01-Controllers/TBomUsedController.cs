@@ -42,6 +42,28 @@ namespace ZY.MES._01_Controllers
         }
 
 
+ 
+        /// 重新构建完整BOM
+        /// </summary>
+        /// <param name="uses">前端传入的一级用料数组</param>
+        /// <remarks>
+        /// 请求示例:
+        /// <code>
+        /// POST /zy/mes/bomUsed/load
+        /// [
+        ///   { "id": 1, "itemNo": "A", "useItemNo": "B", "useItemCount": 2, "useItemType": "01" },
+        ///   { "id": 2, "itemNo": "B", "useItemNo": "C", "useItemCount": 1, "useItemType": "00" }
+        /// ]
+        /// </code>
+        /// </remarks>
+        [HttpPost("load")]
+        public async Task<AjaxResult> LoadBom([FromBody] List<MesItemUseDto> uses)
+        {
+            await _service.LoadBomDataAsync(uses);
+            return AjaxResult.Success();
+        }
+
+
         [HttpGet("pagelist")]
         public async Task<SqlSugarPagedList<TBomUsedDto>> GetPageList([FromQuery] TBomUsedDto dto)
         {
