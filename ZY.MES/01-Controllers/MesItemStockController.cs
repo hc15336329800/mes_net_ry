@@ -40,7 +40,7 @@ namespace ZY.MES._01_Controllers
         [HttpGet("{id}")]
         public async Task<AjaxResult> Get(long id)
         {
-            var data = await _service.FirstOrDefaultAsync(x => x.Id == id);
+            var data = await _service.GetAsync(id);
             return data != null ? AjaxResult.Success(data) : AjaxResult.Error("not found");
         }
 

@@ -40,7 +40,17 @@ namespace ZY.MES._03_Repositories
                     ItemModel = x.ItemModel,
                     ItemCount = x.ItemCount,
                     ItemMeasure = x.ItemMeasure,
-             
+
+                    MinStock = x.MinStock,
+                    MaxStock = x.MaxStock,
+                    WarehouseId = x.WarehouseId,
+                    WarehouseName = x.WarehouseName,
+                    LocationCode = x.LocationCode,
+                    ItemCategory = x.ItemCategory,
+                    ItemStatus = x.ItemStatus,
+                    Remark = x.Remark
+
+
                 });
         }
     }
