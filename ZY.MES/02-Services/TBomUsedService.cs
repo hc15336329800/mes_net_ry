@@ -90,6 +90,7 @@ namespace ZY.MES._02_Services
                  var node = new UseItemTreeResp
                 {
                      Id = bom.Id,
+                     UsedId = bom.Id, //前端构件树使用
                      ItemNo = bom.UseItemNo,
                      ParentCode = bom.ParentCode,
                      FixedUsed = bom.FixedUsed,

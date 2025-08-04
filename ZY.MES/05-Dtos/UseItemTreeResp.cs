@@ -31,6 +31,12 @@ namespace ZY.MES._05_Dtos
         /// </summary>
         public string Id { get; set; } = null!;
 
+
+        /// <summary>
+        /// 用料关系主键  前端构件树使用
+        /// </summary>
+        public string UsedId { get; set; }
+
         /// <summary>
         /// 子节点集合
         /// </summary>
