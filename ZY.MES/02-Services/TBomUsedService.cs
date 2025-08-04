@@ -94,24 +94,25 @@ namespace ZY.MES._02_Services
                 map[bom.UseItemNo] = node;
             }
 
-            // 构建根节点
+            // 构建树形结构并确定根节点
             var roots = new List<UseItemTreeResp>();
-            var allUseItemNos = map.Keys.ToHashSet();
-
             foreach(var bom in usedList)
             {
                 var current = map[bom.UseItemNo];
                 var parentCode = bom.ParentCode;
 
                 if(string.IsNullOrWhiteSpace(parentCode)
-                                   || parentCode == bom.UseItemNo
-                                   || !allUseItemNos.Contains(parentCode))
+                       || parentCode == bom.UseItemNo
+                       || !map.ContainsKey(parentCode))
                 {
                     roots.Add(current);
 
                 }
+                else
+                {
+                    map[parentCode].Children.Add(current);
+                }
 
-                 
             }
 
             return roots;
