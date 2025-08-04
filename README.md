@@ -18,5 +18,4 @@
 
 
 注意：  关于bom结构
-- mes_item_use 是父级 BOM：它描述了一级 BOM（即物料编码与其对应的使用物料编码），即物料的直接关系。
-- t_bom_used 是 BOM 依赖：它用于存储完整的 BOM 依赖关系，包括物料的父子关系以及它们的递归依赖。
+-  我们应该使用t_bom_used （bom依赖） + mes_item_stock（item_type=01   bom根节点）  。
