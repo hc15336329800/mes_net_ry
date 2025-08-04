@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RuoYi.Framework;
@@ -17,6 +18,8 @@ namespace ZY.MES._01_Controllers
     /// </summary>
     [ApiDescriptionSettings("zy/mes/itemStock")]
     [Route("zy/mes/itemStock")]
+    [AllowAnonymous] //匿名访问
+
     public class MesItemStockController : ControllerBase
     {
         private readonly ILogger<MesItemStockController> _logger;
