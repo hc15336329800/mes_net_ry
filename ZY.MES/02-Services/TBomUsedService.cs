@@ -24,15 +24,18 @@ namespace ZY.MES._02_Services
         private readonly ILogger<TBomUsedService> _logger;
         private readonly TBomUsedRepository _repository;
         private readonly MesItemStockRepository _itemRepository;
+        private readonly MesItemUseRepository _useRepository;
 
         public TBomUsedService(
             ILogger<TBomUsedService> logger,
             TBomUsedRepository repository,
-            MesItemStockRepository itemRepository)
+            MesItemStockRepository itemRepository,
+            MesItemUseRepository useRepository)
         {
             _logger = logger;
             _repository = repository;
             _itemRepository = itemRepository;
+            _useRepository = useRepository;
 
             BaseRepo = repository;
         }
@@ -161,13 +164,42 @@ namespace ZY.MES._02_Services
             {
                 if(!childrenMap.TryGetValue(parentItemNo,out var children))
                 {
-                    return;
+                    children = _useRepository.Repo.AsQueryable()
+                         .Where(x => x.ItemNo == parentItemNo)
+                         .Select(x => new MesItemUseDto
+                         {
+                             Id = x.Id,
+                             ItemNo = x.ItemNo,
+                             UseItemNo = x.UseItemNo,
+                             UseItemCount = x.UseItemCount
+                         })
+                         .ToList();
+
+                    if(children.Count == 0)
+                    {
+                        return;
+                    }
+
+                    var newNos = children.Select(c => c.UseItemNo).Where(n => !typeMap.ContainsKey(n)).ToArray();
+                    if(newNos.Length > 0)
+                    {
+                        var addInfos = _itemRepository.Repo.AsQueryable()
+                            .In(x => x.ItemNo,newNos)
+                            .Select(x => new { x.ItemNo,x.ItemType })
+                            .ToList();
+                        foreach(var info in addInfos)
+                        {
+                            typeMap[info.ItemNo] = info.ItemType;
+                        }
+                    }
                 }
 
                 foreach(var child in children)
                 {
                     // 优先使用前端传入的用料类型,否则回退到物料档案中的类型
-                    var childType = child.UseItemType ?? (typeMap.TryGetValue(child.UseItemNo,out var t) ? t : null); var useCount = (child.UseItemCount ?? 0m) * parentCount;
+                    var childType = child.UseItemType ?? (typeMap.TryGetValue(child.UseItemNo,out var t) ? t : null);
+                    var useCount = (child.UseItemCount ?? 0m) * parentCount;
+                    
                     var childPath = string.IsNullOrEmpty(path) ? child.UseItemNo : $"{path}|{child.UseItemNo}";
 
                     result.Add(new TBomUsed
