@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="01-Controllers\MesItemUseController.cs" />
+    <Compile Remove="02-Services\MesItemUseService.cs" />
+    <Compile Remove="03-Repositories\MesItemUseRepository.cs" />
+    <Compile Remove="04-Entities\MesItemUse.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\RuoYi.Common\RuoYi.Common.csproj" />
     <ProjectReference Include="..\RuoYi.Data\RuoYi.Data.csproj" />
     <ProjectReference Include="..\RuoYi.Framework\RuoYi.Framework.csproj" />

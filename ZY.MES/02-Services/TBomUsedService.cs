@@ -24,19 +24,16 @@ namespace ZY.MES._02_Services
         private readonly ILogger<TBomUsedService> _logger;
         private readonly TBomUsedRepository _repository;
         private readonly MesItemStockRepository _itemRepository;
-        private readonly MesItemUseRepository _useRepository;
-
+ 
         public TBomUsedService(
             ILogger<TBomUsedService> logger,
             TBomUsedRepository repository,
-            MesItemStockRepository itemRepository,
-            MesItemUseRepository useRepository)
-        {
+            MesItemStockRepository itemRepository)
+         {
             _logger = logger;
             _repository = repository;
             _itemRepository = itemRepository;
-            _useRepository = useRepository;
-
+ 
             BaseRepo = repository;
         }
 
@@ -130,9 +127,10 @@ namespace ZY.MES._02_Services
 
 
         /// <summary>
-        /// 根据前端传递的一级用料数据重新构建完整BOM
+        /// 根据前端传递的一级用料数据重新构建完整BOM   -  修复1版
         /// </summary>
         /// <param name="uses">一级用料列表</param>
+        /// <summary>
         public async Task LoadBomDataAsync(List<MesItemUseDto> uses)
         {
             if(uses == null || uses.Count == 0)
@@ -161,7 +159,8 @@ namespace ZY.MES._02_Services
             var result = new List<TBomUsed>();
             var now = DateTime.Now;
 
-            void FindChildUse(string parentItemNo,decimal parentCount,string path)
+            // 递归查找子用料，改为异步方法以确保数据库查询完整执行
+            async Task FindChildUseAsync(string parentItemNo,decimal parentCount,string path)
             {
                 // 防止循环引用导致的无限递归
                 if(path.Split('|').Count(p => p == parentItemNo) > 1)
@@ -169,46 +168,31 @@ namespace ZY.MES._02_Services
                     return;
                 }
 
-                if(!childrenMap.TryGetValue(parentItemNo,out var children))
+                // 查找当前父物料的子节点（直接从 t_bom_used 查询）
+                List<TBomUsed> children = await _repository.Repo.AsQueryable()
+                    .Where(x => x.ItemNo == parentItemNo)
+                    .Select(x => new TBomUsed
+                    {
+                        ItemNo = x.ItemNo,
+                        UseItemNo = x.UseItemNo,
+                        UseItemCount = x.UseItemCount,
+                        UseItemType = x.UseItemType
+                    })
+                    .ToListAsync();
+
+                if(children.Count == 0)
                 {
-                    children = _useRepository.Repo.AsQueryable()
-                         .Where(x => x.ItemNo == parentItemNo)
-                         .Select(x => new MesItemUseDto
-                         {
-                             Id = x.Id,
-                             ItemNo = x.ItemNo,
-                             UseItemNo = x.UseItemNo,
-                             UseItemCount = x.UseItemCount
-                         })
-                         .ToList();
-
-                    if(children.Count == 0)
-                    {
-                        return;
-                    }
-
-                    var newNos = children.Select(c => c.UseItemNo).Where(n => !typeMap.ContainsKey(n)).ToArray();
-                    if(newNos.Length > 0)
-                    {
-                        var addInfos = _itemRepository.Repo.AsQueryable()
-                            .In(x => x.ItemNo,newNos)
-                            .Select(x => new { x.ItemNo,x.ItemType })
-                            .ToList();
-                        foreach(var info in addInfos)
-                        {
-                            typeMap[info.ItemNo] = info.ItemType;
-                        }
-                    }
+                    return;
                 }
 
+                // 处理每一个子物料
                 foreach(var child in children)
                 {
-                    // 优先使用前端传入的用料类型,否则回退到物料档案中的类型
                     var childType = child.UseItemType ?? (typeMap.TryGetValue(child.UseItemNo,out var t) ? t : null);
-                    var useCount = (child.UseItemCount ?? 0m) * parentCount;
-                    
+                    var useCount = child.UseItemCount * parentCount;
                     var childPath = string.IsNullOrEmpty(path) ? child.UseItemNo : $"{path}|{child.UseItemNo}";
 
+                    // 添加子物料的依赖记录
                     result.Add(new TBomUsed
                     {
                         Id = NextId.Id13().ToString(),
@@ -218,22 +202,22 @@ namespace ZY.MES._02_Services
                         UseItemCount = useCount,
                         UseItemType = childType,
                         ParentCode = parentItemNo,
-                        ItemNos = childPath,
+                        ItemNos = childPath,  // 更新物料长编码
                         UsedId = child.Id,
                         FixedUsed = useCount,
                         CreatedTime = now,
                         UpdatedTime = now
                     });
 
-                    // 无论物料类型为何，都尝试继续向下查找子级，确保完整遍历
-                    FindChildUse(child.UseItemNo,useCount,childPath);
+                    // 递归查找当前子物料的子节点
+                    await FindChildUseAsync(child.UseItemNo,useCount,childPath);
                 }
             }
 
-            FindChildUse(itemNo,1m,itemNo);
+            // 从根物料开始递归查找依赖关系
+            await FindChildUseAsync(itemNo,1m,itemNo);
 
             // 添加自身依赖节点
-            // 如果根节点尚未存在则补充一条自身依赖记录
             bool rootExists = await _repository.Repo.AsQueryable()
                 .AnyAsync(x => x.ItemNo == itemNo && x.UseItemNo == itemNo);
             if(!rootExists)
@@ -280,6 +264,8 @@ namespace ZY.MES._02_Services
         }
 
 
+
+ 
 
         /// <summary>
         /// 删除指定节点及其所有子节点
