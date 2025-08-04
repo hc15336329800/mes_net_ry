@@ -6,8 +6,14 @@ namespace ZY.MES._05_Dtos
     /// <summary>
     /// 物料库存数据传输对象
     /// </summary>
+    /// <summary>
+    /// 物料库存表 数据传输对象 (DTO)
+    /// </summary>
     public class MesItemStockDto : BaseDto
     {
+        /// <summary>
+        /// 主键
+        /// </summary>
         public long Id { get; set; }
 
         /// <summary>
@@ -36,43 +42,73 @@ namespace ZY.MES._05_Dtos
         public string? ItemMeasure { get; set; }
 
         /// <summary>
-        /// 最小库存量
+        /// 辅助库存数量
         /// </summary>
-        public decimal? MinStock { get; set; }
+        public decimal? ItemCountAssist { get; set; }
 
         /// <summary>
-        /// 最大库存量
+        /// 辅助计量单位
         /// </summary>
-        public decimal? MaxStock { get; set; }
+        public string? ItemMeasureAssist { get; set; }
 
         /// <summary>
-        /// 仓库ID
+        /// BOM编号
         /// </summary>
-        public long? WarehouseId { get; set; }
+        public string? BomNo { get; set; }
 
         /// <summary>
-        /// 仓库名称
+        /// 物料类型
         /// </summary>
-        public string? WarehouseName { get; set; }
+        public string? ItemType { get; set; }
 
         /// <summary>
-        /// 库位编码
+        /// 库位
         /// </summary>
-        public string? LocationCode { get; set; }
-
-        /// <summary>
-        /// 物料分类
-        /// </summary>
-        public string? ItemCategory { get; set; }
-
-        /// <summary>
-        /// 物料状态(0-正常,1-停用)
-        /// </summary>
-        public string? ItemStatus { get; set; }
+        public string? Location { get; set; }
 
         /// <summary>
         /// 备注
         /// </summary>
         public string? Remark { get; set; }
+
+        /// <summary>
+        /// 创建人
+        /// </summary>
+        public string? CreatedBy { get; set; }
+
+        /// <summary>
+        /// 创建时间
+        /// </summary>
+        public DateTime? CreatedTime { get; set; }
+
+        /// <summary>
+        /// 更新人
+        /// </summary>
+        public string? UpdatedBy { get; set; }
+
+        /// <summary>
+        /// 更新时间
+        /// </summary>
+        public DateTime? UpdatedTime { get; set; }
+
+        /// <summary>
+        /// ERP库存数量
+        /// </summary>
+        public decimal? ErpCount { get; set; }
+
+        /// <summary>
+        /// 净重
+        /// </summary>
+        public decimal? NetWeight { get; set; }
+
+        /// <summary>
+        /// 有效标识
+        /// </summary>
+        public string? IsValid { get; set; }
+
+        /// <summary>
+        /// 单位ID
+        /// </summary>
+        public int? UniId { get; set; }
     }
 }
