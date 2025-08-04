@@ -166,8 +166,8 @@ namespace ZY.MES._02_Services
 
                 foreach(var child in children)
                 {
-                    var childType = typeMap.TryGetValue(child.UseItemNo,out var t) ? t : null;
-                    var useCount = (child.UseItemCount ?? 0m) * parentCount;
+                    // 优先使用前端传入的用料类型,否则回退到物料档案中的类型
+                    var childType = child.UseItemType ?? (typeMap.TryGetValue(child.UseItemNo,out var t) ? t : null); var useCount = (child.UseItemCount ?? 0m) * parentCount;
                     var childPath = string.IsNullOrEmpty(path) ? child.UseItemNo : $"{path}|{child.UseItemNo}";
 
                     result.Add(new TBomUsed
@@ -180,7 +180,7 @@ namespace ZY.MES._02_Services
                         UseItemType = childType,
                         ParentCode = parentItemNo,
                         ItemNos = childPath,
-                        UsedId = child.Id.ToString(),
+                        UsedId = child.Id,
                         FixedUsed = useCount,
                         CreatedTime = now,
                         UpdatedTime = now
@@ -196,20 +196,26 @@ namespace ZY.MES._02_Services
             FindChildUse(itemNo,1m,itemNo);
 
             // 添加自身依赖节点
-            result.Add(new TBomUsed
+            // 如果根节点尚未存在则补充一条自身依赖记录
+            bool rootExists = await _repository.Repo.AsQueryable()
+                .AnyAsync(x => x.ItemNo == itemNo && x.UseItemNo == itemNo);
+            if(!rootExists)
             {
-                Id = NextId.Id13().ToString(),
-                ItemNo = itemNo,
-                BomNo = bomNo,
-                UseItemNo = itemNo,
-                UseItemCount = 1m,
-                UseItemType = typeMap.TryGetValue(itemNo,out var rootType) ? rootType : null,
-                ParentCode = itemNo,
-                ItemNos = itemNo,
-                FixedUsed = 1m,
-                CreatedTime = now,
-                UpdatedTime = now
-            });
+                result.Add(new TBomUsed
+                {
+                    Id = NextId.Id13().ToString(),
+                    ItemNo = itemNo,
+                    BomNo = bomNo,
+                    UseItemNo = itemNo,
+                    UseItemCount = 1m,
+                    UseItemType = typeMap.TryGetValue(itemNo,out var rootType) ? rootType : null,
+                    ParentCode = itemNo,
+                    ItemNos = itemNo,
+                    FixedUsed = 1m,
+                    CreatedTime = now,
+                    UpdatedTime = now
+                });
+            }
 
             // 同一父子组合去重并合并数量
             var deduped = result
@@ -223,10 +229,13 @@ namespace ZY.MES._02_Services
                 })
                 .ToList();
 
-            // 删除旧数据
-            await _repository.Repo.DeleteAsync(x => x.ItemNo == itemNo);
+            // 为避免重复,先删除即将插入的父子组合对应的旧记录
+            foreach(var node in deduped)
+            {
+                await _repository.Repo.DeleteAsync(x => x.ItemNo == itemNo && x.ParentCode == node.ParentCode && x.UseItemNo == node.UseItemNo);
+            }
 
-            // 批量写入
+            // 批量写入新增或更新的记录
             if(deduped.Count > 0)
             {
                 await _repository.Repo.InsertAsync(deduped);

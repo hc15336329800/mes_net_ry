@@ -13,5 +13,9 @@ namespace ZY.MES._05_Dtos
         public string ItemNo { get; set; } = null!;
         public string UseItemNo { get; set; } = null!;
         public decimal? UseItemCount { get; set; }
+        /// <summary>
+        /// 用料类型,如01表示装配件
+        /// </summary>
+        public string? UseItemType { get; set; }
     }
 }
