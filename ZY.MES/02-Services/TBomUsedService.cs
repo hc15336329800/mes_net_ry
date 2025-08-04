@@ -212,7 +212,7 @@ namespace ZY.MES._02_Services
                     result.Add(new TBomUsed
                     {
                         Id = NextId.Id13().ToString(),
-                        ItemNo = itemNo,
+                        ItemNo = parentItemNo,
                         BomNo = bomNo,
                         UseItemNo = child.UseItemNo,
                         UseItemCount = useCount,
@@ -256,8 +256,7 @@ namespace ZY.MES._02_Services
 
             // 同一父子组合去重并合并数量
             var deduped = result
-                .GroupBy(x => new { x.ParentCode,x.UseItemNo })
-                .Select(g =>
+                .GroupBy(x => new { x.ItemNo,x.ParentCode,x.UseItemNo }).Select(g =>
                 {
                     var first = g.First();
                     first.UseItemCount = g.Sum(x => x.UseItemCount);
@@ -269,7 +268,7 @@ namespace ZY.MES._02_Services
             // 为避免重复,先删除即将插入的父子组合对应的旧记录
             foreach(var node in deduped)
             {
-                await _repository.Repo.DeleteAsync(x => x.ItemNo == itemNo && x.ParentCode == node.ParentCode && x.UseItemNo == node.UseItemNo);
+                await _repository.Repo.DeleteAsync(x => x.ItemNo == node.ItemNo && x.ParentCode == node.ParentCode && x.UseItemNo == node.UseItemNo);
             }
 
             // 批量写入新增或更新的记录
@@ -302,16 +301,16 @@ namespace ZY.MES._02_Services
 
             if(root.UseItemType == "01")
             {
-                await CollectChildIdsAsync(root.ItemNo,root.UseItemNo,ids);
+                await CollectChildIdsAsync(root.UseItemNo,ids);
             }
 
             return await _repository.DeleteAsync(ids);
         }
 
-        private async Task CollectChildIdsAsync(string itemNo,string parentCode,List<string> ids)
+        private async Task CollectChildIdsAsync(string parentItemNo,List<string> ids)
         {
             var children = await _repository.Repo.AsQueryable()
-                .Where(x => x.ItemNo == itemNo && x.ParentCode == parentCode)
+                .Where(x => x.ItemNo == parentItemNo)
                 .Select(x => new { x.Id,x.UseItemNo,x.UseItemType })
                 .ToListAsync();
 
@@ -320,7 +319,7 @@ namespace ZY.MES._02_Services
                 ids.Add(child.Id);
                 if(child.UseItemType == "01")
                 {
-                    await CollectChildIdsAsync(itemNo,child.UseItemNo,ids);
+                    await CollectChildIdsAsync(child.UseItemNo,ids);
                 }
             }
         }
