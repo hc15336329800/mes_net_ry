@@ -131,7 +131,7 @@ namespace ZY.MES._02_Services
 
 
         /// <summary>
-        /// 根据前端传递的一级用料数据重新构建完整BOM   -  修复1版
+        /// 根据前端传递的一级用料数据重新构建完整BOM   -  修复1版  2025-08-14 通过测试
         /// </summary>
         /// <param name="uses">一级用料列表</param>
         /// <summary>
@@ -156,7 +156,15 @@ namespace ZY.MES._02_Services
             var typeMap = itemInfos.ToDictionary(x => x.ItemNo,x => x.ItemType);
             var bomNo = itemInfos.FirstOrDefault(x => x.ItemNo == itemNo)?.BomNo ?? itemNo;
 
-        
+            // 删除与当前新增用料相关的 BOM 记录，避免旧数据残留
+            foreach(var use in uses)
+            {
+                var pathPrefix = $"{itemNo}|{use.UseItemNo}";
+                await _repository.Repo.DeleteAsync(x =>
+                    x.ItemNo == itemNo &&
+                    x.ItemNos != null &&
+                    (x.ItemNos == pathPrefix || SqlFunc.StartsWith(x.ItemNos,pathPrefix + "|")));
+            }
 
             var result = new List<TBomUsed>();
             var now = DateTime.Now;
@@ -175,14 +183,13 @@ namespace ZY.MES._02_Services
                    .Select(x => new { x.UseItemNo,x.UseItemCount,x.UseItemType })
                    .ToListAsync();
 
-  
                 foreach(var child in children)
                 {
                     var useCount = child.UseItemCount * parentCount;
                     var childPath = string.IsNullOrEmpty(path) ? child.UseItemNo : $"{path}|{child.UseItemNo}";
                     var childType = child.UseItemType ?? (typeMap.TryGetValue(child.UseItemNo,out var t) ? t : null);
 
-                     result.Add(new TBomUsed
+                    result.Add(new TBomUsed
                     {
                         Id = NextId.Id13().ToString(),
                         ItemNo = itemNo,
@@ -190,9 +197,9 @@ namespace ZY.MES._02_Services
                         UseItemNo = child.UseItemNo,
                         UseItemCount = useCount,
                         UseItemType = childType,
-                         ParentCode = parentCode,
-                         ItemNos = childPath,
-                         FixedUsed = useCount,
+                        ParentCode = parentCode,
+                        ItemNos = childPath,
+                        FixedUsed = useCount,
                         CreatedTime = now,
                         UpdatedTime = now
                     });
@@ -226,10 +233,11 @@ namespace ZY.MES._02_Services
 
                 await LoadChildBomAsync(use.UseItemNo,use.UseItemNo,use.UseItemCount ?? 0m,path);
             }
-            // 添加自身依赖节点
-            bool rootExists = await _repository.Repo.AsQueryable()
-                .AnyAsync(x => x.ItemNo == itemNo && x.UseItemNo == itemNo);
-            if(!rootExists)
+            // 若根节点尚不存在，则添加根节点自身的依赖关系
+            var hasRoot = await _repository.Repo.AsQueryable()
+                .Where(x => x.ItemNo == itemNo && x.UseItemNo == itemNo)
+                .AnyAsync();
+            if(!hasRoot)
             {
                 result.Add(new TBomUsed
                 {
@@ -259,10 +267,8 @@ namespace ZY.MES._02_Services
                 })
                 .ToList();
 
-            // 删除原有记录重新插入
-            await _repository.Repo.DeleteAsync(x => x.ItemNo == itemNo);
-
-             if(deduped.Count > 0)
+            // 插入最新的完整 BOM 数据
+            if(deduped.Count > 0)
             {
                 await _repository.Repo.InsertAsync(deduped);
             }
@@ -270,7 +276,7 @@ namespace ZY.MES._02_Services
 
 
 
- 
+
 
 
 
