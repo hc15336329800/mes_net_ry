@@ -31,7 +31,7 @@ namespace ZY.MES._02_Services
         /// <summary>
         /// 根据主键获取库存信息
         /// </summary>
-        public async Task<MesItemStockDto?> GetAsync(long id)
+        public async Task<MesItemStockDto?> GetAsync(String id)
         {
             return await _repository
                 .DtoQueryable(new MesItemStockDto())

@@ -14,7 +14,7 @@ namespace ZY.MES._05_Dtos
         /// <summary>
         /// 主键
         /// </summary>
-        public long Id { get; set; }
+        public String Id { get; set; } = null!;
 
         /// <summary>
         /// 物料编号
@@ -72,26 +72,6 @@ namespace ZY.MES._05_Dtos
         public string? Remark { get; set; }
 
         /// <summary>
-        /// 创建人
-        /// </summary>
-        public string? CreatedBy { get; set; }
-
-        /// <summary>
-        /// 创建时间
-        /// </summary>
-        public DateTime? CreatedTime { get; set; }
-
-        /// <summary>
-        /// 更新人
-        /// </summary>
-        public string? UpdatedBy { get; set; }
-
-        /// <summary>
-        /// 更新时间
-        /// </summary>
-        public DateTime? UpdatedTime { get; set; }
-
-        /// <summary>
         /// ERP库存数量
         /// </summary>
         public decimal? ErpCount { get; set; }
@@ -110,5 +90,28 @@ namespace ZY.MES._05_Dtos
         /// 单位ID
         /// </summary>
         public int? UniId { get; set; }
+
+
+
+
+        /// <summary>
+        /// 创建人
+        /// </summary>
+        public string? CreatedBy { get; set; }
+
+        /// <summary>
+        /// 创建时间
+        /// </summary>
+        public DateTime? CreatedTime { get; set; }
+
+        /// <summary>
+        /// 更新人
+        /// </summary>
+        public string? UpdatedBy { get; set; }
+
+        /// <summary>
+        /// 更新时间
+        /// </summary>
+        public DateTime? UpdatedTime { get; set; }
     }
 }

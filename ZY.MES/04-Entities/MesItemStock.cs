@@ -10,8 +10,8 @@ namespace ZY.MES._04_Entities
     [SugarTable("mes_item_stock","物料库存表")]
     public class MesItemStock : BaseEntity
     {
-        [SugarColumn(ColumnName = "id",ColumnDescription = "主键",IsPrimaryKey = true,IsIdentity = true)]
-        public long Id { get; set; }
+        [SugarColumn(ColumnName = "id",ColumnDescription = "主键",IsPrimaryKey = true)]
+        public string Id { get; set; } = null!;
 
         [SugarColumn(ColumnName = "item_no",ColumnDescription = "物料编号",Length = 32)]
         public string ItemNo { get; set; } = null!;
@@ -46,17 +46,6 @@ namespace ZY.MES._04_Entities
         [SugarColumn(ColumnName = "remark",ColumnDescription = "备注",Length = 255)]
         public string? Remark { get; set; }
 
-        [SugarColumn(ColumnName = "created_by",ColumnDescription = "创建人",Length = 255)]
-        public string? CreatedBy { get; set; }
-
-        [SugarColumn(ColumnName = "created_time",ColumnDescription = "创建时间")]
-        public DateTime? CreatedTime { get; set; }
-
-        [SugarColumn(ColumnName = "updated_by",ColumnDescription = "更新人",Length = 255)]
-        public string? UpdatedBy { get; set; }
-
-        [SugarColumn(ColumnName = "updated_time",ColumnDescription = "更新时间")]
-        public DateTime? UpdatedTime { get; set; }
 
         [SugarColumn(ColumnName = "erp_count",ColumnDescription = "ERP库存数量",DecimalDigits = 3)]
         public decimal? ErpCount { get; set; }
@@ -69,5 +58,25 @@ namespace ZY.MES._04_Entities
 
         [SugarColumn(ColumnName = "uni_id",ColumnDescription = "单位ID",Length = 11)]
         public int? UniId { get; set; }
+
+        // 新添加字段
+        [SugarColumn(ColumnName = "item_origin",ColumnDescription = "来源：自制或采购",Length = 10)]
+        public string? ItemOrigin { get; set; }  // 添加物料来源字段
+
+
+
+
+
+        [SugarColumn(ColumnName = "created_by",ColumnDescription = "创建人",Length = 255)]
+        public string? CreatedBy { get; set; }
+
+        [SugarColumn(ColumnName = "created_time",ColumnDescription = "创建时间")]
+        public DateTime? CreatedTime { get; set; }
+
+        [SugarColumn(ColumnName = "updated_by",ColumnDescription = "更新人",Length = 255)]
+        public string? UpdatedBy { get; set; }
+
+        [SugarColumn(ColumnName = "updated_time",ColumnDescription = "更新时间")]
+        public DateTime? UpdatedTime { get; set; }
     }
 }
