@@ -170,7 +170,7 @@ namespace ZY.MES._02_Services
             var now = DateTime.Now;
 
             // 递归加载指定物料的完整BOM层级
-            async Task LoadChildBomAsync(string current,string parentCode,decimal parentCount,string path)
+            async Task LoadChildBomAsync(string current,string parentCode,string path)
             {
                 // 防止循环引用导致的无限递归
                 if(path.Split('|').Count(p => p == current) > 1)
@@ -185,7 +185,7 @@ namespace ZY.MES._02_Services
 
                 foreach(var child in children)
                 {
-                    var useCount = child.UseItemCount * parentCount;
+                    var useCount = child.UseItemCount;
                     var childPath = string.IsNullOrEmpty(path) ? child.UseItemNo : $"{path}|{child.UseItemNo}";
                     var childType = child.UseItemType ?? (typeMap.TryGetValue(child.UseItemNo,out var t) ? t : null);
 
@@ -205,7 +205,7 @@ namespace ZY.MES._02_Services
                     });
 
                     // 递归查找当前子物料的子节点
-                    await LoadChildBomAsync(child.UseItemNo,child.UseItemNo,useCount,childPath);
+                    await LoadChildBomAsync(child.UseItemNo,child.UseItemNo,childPath);
                 }
             }
 
@@ -231,7 +231,7 @@ namespace ZY.MES._02_Services
                     UpdatedTime = now
                 });
 
-                await LoadChildBomAsync(use.UseItemNo,use.UseItemNo,use.UseItemCount ?? 0m,path);
+                await LoadChildBomAsync(use.UseItemNo,use.UseItemNo,path);
             }
             // 若根节点尚不存在，则添加根节点自身的依赖关系
             var hasRoot = await _repository.Repo.AsQueryable()

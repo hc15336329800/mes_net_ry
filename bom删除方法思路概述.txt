@@ -1,0 +1,20 @@
+DeleteBomAsync 方法思路概述
+
+1. 校验和查询根节点
+- 判断传入的 id 是否为空，为空则抛出异常。
+- 通过仓储 _repository.FirstOrDefaultAsync 查询对应 BOM 节点；若未找到则直接返回 0，表示无删除操作。
+
+2. 准备待删除的 ID 列表
+- 将找到的根节点 ID 放入 ids 集合。
+- 若该节点 UseItemType 为 "01"（可展开/有子节点），则递归调用 CollectChildIdsAsync，收集所有子节点 ID。
+
+3. 执行删除
+- 收集完成后，使用 _repository.DeleteAsync(ids) 一次性删除根节点及其所有子节点，返回删除记录数。
+
+4. 递归收集子节点（CollectChildIdsAsync）
+- 根据 itemNo 与当前 parentCode 查询该父节点下的所有子节点。
+- 遍历子节点：将子节点 ID 加入 ids；
+- 若子节点 UseItemType 仍为 "01"，递归调用自身继续向下收集，直至叶子节点。
+
+说明：  
+本设计采用递归方式，确保删除某一节点时可同时清除其所有层级的子节点，实现 BOM 结构的级联删除。
