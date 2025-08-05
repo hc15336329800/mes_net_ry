@@ -18,6 +18,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "项目进度", "项目进度", "{06F6111D-F0A0-4572-92D8-4BC2ABECBDF3}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
+		构建物料用料树逻辑.txt = 构建物料用料树逻辑.txt
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RuoYi.Quartz", "RuoYi.Quartz\RuoYi.Quartz.csproj", "{21F845AA-320A-43B0-B5A5-5929445A2C64}"

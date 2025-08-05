@@ -18,4 +18,4 @@
 
 
 注意：  关于bom结构
--  我们应该使用t_bom_used （bom依赖） + mes_item_stock（item_type=01   bom根节点）  。
+-  我们应该使用t_bom_used （bom依赖） + mes_item_stock（item_type=01   bom名称吧）  。

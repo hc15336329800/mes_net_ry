@@ -286,7 +286,7 @@ namespace ZY.MES._02_Services
 
 
         /// <summary>
-        /// 删除指定节点及其所有子节点
+        /// 删除指定节点及其所有子节点  测试通过
         /// </summary>
         /// <param name="id">节点 ID</param>
         public async Task<int> DeleteBomAsync(string id)
@@ -328,8 +328,6 @@ namespace ZY.MES._02_Services
                 }
             }
         }
-
-
 
     }
 }
