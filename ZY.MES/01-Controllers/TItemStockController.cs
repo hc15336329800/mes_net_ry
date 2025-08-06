@@ -20,12 +20,12 @@ namespace ZY.MES._01_Controllers
     [Route("zy/mes/itemStock")]
     [AllowAnonymous] //匿名访问
 
-    public class MesItemStockController : ControllerBase
+    public class TItemStockController : ControllerBase
     {
-        private readonly ILogger<MesItemStockController> _logger;
-        private readonly MesItemStockService _service;
+        private readonly ILogger<TItemStockController> _logger;
+        private readonly TItemStockService _service;
 
-        public MesItemStockController(ILogger<MesItemStockController> logger,MesItemStockService service)
+        public TItemStockController(ILogger<TItemStockController> logger,TItemStockService service)
         {
             _logger = logger;
             _service = service;
@@ -40,8 +40,8 @@ namespace ZY.MES._01_Controllers
         /// <param name="pageSize"></param>
         /// <returns></returns>
         [HttpGet("pagelist")]
-        public async Task<SqlSugarPagedList<MesItemStockDto>> GetPageList(
-            [FromQuery] MesItemStockDto dto,
+        public async Task<SqlSugarPagedList<TItemStockDto>> GetPageList(
+            [FromQuery] TItemStockDto dto,
             [FromQuery] int pageNum = 1,
             [FromQuery] int pageSize = 10)
         {
@@ -60,8 +60,8 @@ namespace ZY.MES._01_Controllers
         /// <param name="pageSize"></param>
         /// <returns></returns>
         [HttpGet("pagelistmaterial")]
-        public async Task<SqlSugarPagedList<MesItemStockDto>> GetPageListMaterial(
-          [FromQuery] MesItemStockDto dto,
+        public async Task<SqlSugarPagedList<TItemStockDto>> GetPageListMaterial(
+          [FromQuery] TItemStockDto dto,
           [FromQuery] int pageNum = 1,
           [FromQuery] int pageSize = 10)
         {
@@ -81,8 +81,8 @@ namespace ZY.MES._01_Controllers
         /// <param name="pageSize"></param>
         /// <returns></returns>
         [HttpGet("pagelistall")]
-        public async Task<SqlSugarPagedList<MesItemStockDto>> GetPageListAll(
-            [FromQuery] MesItemStockDto dto,
+        public async Task<SqlSugarPagedList<TItemStockDto>> GetPageListAll(
+            [FromQuery] TItemStockDto dto,
             [FromQuery] int pageNum = 1,
             [FromQuery] int pageSize = 10)
         {
@@ -102,14 +102,14 @@ namespace ZY.MES._01_Controllers
         }
 
         [HttpPost("add")]
-        public async Task<AjaxResult> Add([FromBody] MesItemStockDto dto)
+        public async Task<AjaxResult> Add([FromBody] TItemStockDto dto)
         {
             bool ok = await _service.InsertAsync(dto);
             return ok ? AjaxResult.Success() : AjaxResult.Error();
         }
 
         [HttpPost("update")]
-        public async Task<AjaxResult> Update([FromBody] MesItemStockDto dto)
+        public async Task<AjaxResult> Update([FromBody] TItemStockDto dto)
         {
             int rows = await _service.UpdateAsync(dto);
             return rows > 0 ? AjaxResult.Success() : AjaxResult.Error();

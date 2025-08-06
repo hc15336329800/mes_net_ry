@@ -23,12 +23,12 @@ namespace ZY.MES._02_Services
     {
         private readonly ILogger<TBomUsedService> _logger;
         private readonly TBomUsedRepository _repository;
-        private readonly MesItemStockRepository _itemRepository;
+        private readonly TItemStockRepository _itemRepository;
  
         public TBomUsedService(
             ILogger<TBomUsedService> logger,
             TBomUsedRepository repository,
-            MesItemStockRepository itemRepository)
+            TItemStockRepository itemRepository)
          {
             _logger = logger;
             _repository = repository;
@@ -135,7 +135,7 @@ namespace ZY.MES._02_Services
         /// </summary>
         /// <param name="uses">一级用料列表</param>
         /// <summary>
-        public async Task LoadBomDataAsync(List<MesItemUseDto> uses)
+        public async Task LoadBomDataAsync(List<TItemUseResp> uses)
         {
             if(uses == null || uses.Count == 0)
             {

@@ -15,12 +15,12 @@ namespace ZY.MES._02_Services
     /// <summary>
     /// 物料服务
     /// </summary>
-    public class MesItemStockService : BaseService<MesItemStock,MesItemStockDto>
+    public class TItemStockService : BaseService<TItemStock,TItemStockDto>
     {
-        private readonly ILogger<MesItemStockService> _logger;
-        private readonly MesItemStockRepository _repository;
+        private readonly ILogger<TItemStockService> _logger;
+        private readonly TItemStockRepository _repository;
 
-        public MesItemStockService(ILogger<MesItemStockService> logger,MesItemStockRepository repository)
+        public TItemStockService(ILogger<TItemStockService> logger,TItemStockRepository repository)
         {
             _logger = logger;
             _repository = repository;
@@ -31,10 +31,10 @@ namespace ZY.MES._02_Services
         /// <summary>
         /// 根据主键获取库存信息
         /// </summary>
-        public async Task<MesItemStockDto?> GetAsync(String id)
+        public async Task<TItemStockDto?> GetAsync(String id)
         {
             return await _repository
-                .DtoQueryable(new MesItemStockDto())
+                .DtoQueryable(new TItemStockDto())
                 .Where(x => x.Id == id)
                 .FirstAsync();
         }

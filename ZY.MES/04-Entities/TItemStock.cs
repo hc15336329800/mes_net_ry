@@ -7,8 +7,8 @@ namespace ZY.MES._04_Entities
     /// <summary>
     /// 物料库存表
     /// </summary>
-    [SugarTable("mes_item_stock","物料库存表")]
-    public class MesItemStock : BaseEntity
+    [SugarTable("t_item_stock","物料库存表")]
+    public class TItemStock : BaseEntity
     {
         [SugarColumn(ColumnName = "id",ColumnDescription = "主键",IsPrimaryKey = true)]
         public string Id { get; set; } = null!;

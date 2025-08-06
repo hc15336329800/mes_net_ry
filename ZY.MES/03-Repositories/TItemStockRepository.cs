@@ -13,14 +13,14 @@ namespace ZY.MES._03_Repositories
     /// <summary>
     /// 物料表仓储
     /// </summary>
-    public class MesItemStockRepository : BaseRepository<MesItemStock,MesItemStockDto>
+    public class TItemStockRepository : BaseRepository<TItemStock,TItemStockDto>
     {
-        public MesItemStockRepository(ISqlSugarRepository<MesItemStock> repo)
+        public TItemStockRepository(ISqlSugarRepository<TItemStock> repo)
         {
             Repo = repo;
         }
 
-        public override ISugarQueryable<MesItemStock> Queryable(MesItemStockDto dto)
+        public override ISugarQueryable<TItemStock> Queryable(TItemStockDto dto)
         {
             return Repo.AsQueryable()
                 .WhereIF(!string.IsNullOrWhiteSpace(dto.ItemNo),x => x.ItemNo.Contains(dto.ItemNo))
@@ -30,7 +30,7 @@ namespace ZY.MES._03_Repositories
                 .WhereIF(dto.UpdatedTime.HasValue,x => x.UpdatedTime <= dto.UpdatedTime);
         }
 
-        public override ISugarQueryable<MesItemStockDto> DtoQueryable(MesItemStockDto dto)
+        public override ISugarQueryable<TItemStockDto> DtoQueryable(TItemStockDto dto)
         {
             // 第一步：使用 Repo.AsQueryable 创建查询基础
             var query = Repo.AsQueryable();
@@ -72,8 +72,8 @@ namespace ZY.MES._03_Repositories
                 Console.WriteLine($"{param.ParameterName}: {param.Value}");  // 输出 SQL 查询参数
             }
 
-            // 第四步：选择需要的字段并映射到 MesItemStockDto
-            var result = query.Select(x => new MesItemStockDto
+            // 第四步：选择需要的字段并映射到 TItemStockDto
+            var result = query.Select(x => new TItemStockDto
             {
                 Id = x.Id,
                 ItemNo = x.ItemNo,

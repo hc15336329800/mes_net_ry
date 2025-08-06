@@ -57,7 +57,7 @@ namespace ZY.MES._01_Controllers
         /// </code>
         /// </remarks>
         [HttpPost("load")]
-        public async Task<AjaxResult> LoadBom([FromBody] List<MesItemUseDto> uses)
+        public async Task<AjaxResult> LoadBom([FromBody] List<TItemUseResp> uses)
         {
             await _service.LoadBomDataAsync(uses);
             return AjaxResult.Success();

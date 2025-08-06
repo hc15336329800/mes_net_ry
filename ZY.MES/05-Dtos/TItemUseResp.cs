@@ -7,7 +7,7 @@ using RuoYi.Data.Dtos;
 
 namespace ZY.MES._05_Dtos
 {
-    public class MesItemUseDto : BaseDto
+    public class TItemUseResp : BaseDto
     {
         public string? Id { get; set; }
         public string ItemNo { get; set; } = null!;

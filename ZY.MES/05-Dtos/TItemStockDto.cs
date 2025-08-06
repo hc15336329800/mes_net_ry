@@ -9,7 +9,7 @@ namespace ZY.MES._05_Dtos
     /// <summary>
     /// 物料库存表 数据传输对象 (DTO)
     /// </summary>
-    public class MesItemStockDto : BaseDto
+    public class TItemStockDto : BaseDto
     {
         /// <summary>
         /// 主键
